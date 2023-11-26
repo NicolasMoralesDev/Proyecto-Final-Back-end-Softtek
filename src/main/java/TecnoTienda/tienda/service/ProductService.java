@@ -3,6 +3,7 @@ package TecnoTienda.tienda.service;
 import TecnoTienda.tienda.entity.Product;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface ProductService {
@@ -12,4 +13,6 @@ public interface ProductService {
     public List<Product> getAllProducts();
 
     public Product findById(int id);
+
+    public Product findByName(String name);
 }
