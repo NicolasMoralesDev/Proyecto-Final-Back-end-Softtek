@@ -32,18 +32,28 @@ public class ProductController {
 
     }
 
-    @GetMapping("/public/product/{name}")
-    public ResponseEntity<Product> getProductByName(@PathVariable("name") String name){
+    @GetMapping("/public/productById/{id}")
+    public ResponseEntity<Product> getProductById(@PathVariable("id") int id){
         try{
-            Product product = productService.findByName(name);
+            Product product = productService.findById(id);
             return ResponseEntity.status(HttpStatus.FOUND).body(product);
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.notFound().build();
         }
     }
+    @GetMapping("/public/productByCategory/{category}")
+    public ResponseEntity<List<Product>> getProductByCategory(@PathVariable("category") String category){
+        try{
+            List<Product> products = productService.findByCategory(category);
+            return ResponseEntity.status(HttpStatus.FOUND).body(products);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
 
-    @PostMapping("/admin/save")
+    @PostMapping("/admin/save/product")
     public ResponseEntity<Product> addProduct(@RequestBody Product product){
         try{
             Product productSaved = productService.addProduct(product);
