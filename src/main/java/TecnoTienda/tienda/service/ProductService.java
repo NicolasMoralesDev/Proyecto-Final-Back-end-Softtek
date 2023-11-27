@@ -14,5 +14,5 @@ public interface ProductService {
 
     public Product findById(int id);
 
-    public Product findByName(String name);
+    public List<Product> findByCategory(String category);
 }
