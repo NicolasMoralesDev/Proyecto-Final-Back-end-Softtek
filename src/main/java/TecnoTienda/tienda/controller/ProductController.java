@@ -3,6 +3,7 @@ package TecnoTienda.tienda.controller;
 
 import TecnoTienda.tienda.entity.Product;
 import TecnoTienda.tienda.service.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
+    @Operation(summary = "Endpoint publico, Traer Todos los Productos")
     @GetMapping("/public/listproduct")
     public ResponseEntity<List<Product>> getAllProduct(){
         try{
@@ -32,6 +34,7 @@ public class ProductController {
 
     }
 
+    @Operation(summary = "Endpoint publico, Traer producto por Id")
     @GetMapping("/public/productById/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable("id") int id){
         try{
@@ -42,6 +45,8 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
+    
+    @Operation(summary = "Endpoint publico, Traer categoria por Id")
     @GetMapping("/public/productByCategory/{category}")
     public ResponseEntity<List<Product>> getProductByCategory(@PathVariable("category") String category){
         try{
@@ -53,6 +58,7 @@ public class ProductController {
         }
     }
 
+    @Operation(summary = "Endpoint protegido, guardar Admi")
     @PostMapping("/admin/save/product")
     public ResponseEntity<Product> addProduct(@RequestBody Product product){
         try{
