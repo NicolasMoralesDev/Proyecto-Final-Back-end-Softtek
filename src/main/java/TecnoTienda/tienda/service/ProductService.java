@@ -15,4 +15,8 @@ public interface ProductService {
     public Product findById(int id);
 
     public List<Product> findByCategory(String category);
+
+    public void softDeleteProductById(int id);
+
+    public void setActiveProductById(int id);
 }
