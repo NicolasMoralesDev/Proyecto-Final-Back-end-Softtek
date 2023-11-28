@@ -7,6 +7,7 @@ import TecnoTienda.tienda.entity.Item;
 import TecnoTienda.tienda.entity.Sale;
 import TecnoTienda.tienda.service.SaleService;
 import TecnoTienda.tienda.service.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,10 @@ public class SaleController {
     @Autowired
     ProductService productService;
 
+
     @PostMapping("/sale/save")
+    @Operation(summary = "Endpoint publico, Crea ordenes")
+    @PostMapping("/order/save")
     public ResponseEntity<?> saveOrder(@RequestBody List<Item> itemList){
         try {
             Sale sale = new Sale();
