@@ -21,6 +21,7 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
+
     @Operation(summary = "Endpoint publico, Traer Todos los Productos")
     @GetMapping("/public/listproduct")
     public ResponseEntity<List<Product>> getAllProduct(){
@@ -31,7 +32,6 @@ public class ProductController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
-
     }
 
     @Operation(summary = "Endpoint publico, Traer producto por Id")
@@ -52,6 +52,27 @@ public class ProductController {
         try{
             List<Product> products = productService.findByCategory(category);
             return ResponseEntity.status(HttpStatus.FOUND).body(products);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/admin/delete/{id}")
+    public ResponseEntity<?> deleteProductById(@PathVariable("id") int id){
+        try {
+            productService.softDeleteProductById(id);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @PutMapping ("/admin/ActiveProduct/{id}")
+    public ResponseEntity<?> activeProductById(@PathVariable("id") int id){
+        try {
+            productService.setActiveProductById(id);
+            return ResponseEntity.status(HttpStatus.OK).build();
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.notFound().build();

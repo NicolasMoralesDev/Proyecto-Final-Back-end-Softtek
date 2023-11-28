@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/public")
+@RequestMapping("/api/user")
 public class SaleController {
 
     @Autowired
@@ -27,6 +27,8 @@ public class SaleController {
     @Autowired
     ProductService productService;
 
+
+    @PostMapping("/sale/save")
     @Operation(summary = "Endpoint publico, Crea ordenes")
     @PostMapping("/order/save")
     public ResponseEntity<?> saveOrder(@RequestBody List<Item> itemList){

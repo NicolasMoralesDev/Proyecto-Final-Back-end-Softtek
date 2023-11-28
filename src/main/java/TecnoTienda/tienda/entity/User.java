@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -16,18 +14,20 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Sale {
-
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Column(name = "item")
-    private List<Item> itemList = new ArrayList<>();
+    private String name;
 
-    private LocalDate date = LocalDate.now();
+    private String password;
 
+    private String email;
 
+    private String rol;
+
+    @OneToMany
+    private List<Sale> sales;
 }

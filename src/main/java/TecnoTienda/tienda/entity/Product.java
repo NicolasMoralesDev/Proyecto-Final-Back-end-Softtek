@@ -2,13 +2,17 @@ package TecnoTienda.tienda.entity;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.*;
 
 
 @Getter
 @Setter
 @Entity
+@SQLRestriction("status = 'on'")
 public class Product {
 
     @Id
@@ -28,9 +32,10 @@ public class Product {
     @Column(name = "img_url")
     private String imageUrl;
 
-    private boolean enabled;
+    private String status;
 
-    public  Product(){
-        this.enabled = true;
+    public Product(){
+        this.status = "on";
     }
+
 }

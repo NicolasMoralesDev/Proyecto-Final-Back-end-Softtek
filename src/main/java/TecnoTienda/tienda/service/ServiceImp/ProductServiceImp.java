@@ -38,4 +38,13 @@ public class ProductServiceImp implements ProductService {
     public Product findById(int id){
         return productDao.findById(id).get();
     }
+
+    @Override
+    public void softDeleteProductById(int id){
+        productDao.softDeleteProductById(id);
+    }
+    @Override
+    public void setActiveProductById(int id){
+        productDao.setActiveProductById(id);
+    }
 }
