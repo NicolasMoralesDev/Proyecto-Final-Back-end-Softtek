@@ -20,6 +20,7 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
+
     @GetMapping("/public/listproduct")
     public ResponseEntity<List<Product>> getAllProduct(){
         try{
@@ -29,7 +30,6 @@ public class ProductController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
-
     }
 
     @GetMapping("/public/productById/{id}")
@@ -52,7 +52,26 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    @GetMapping("/admin/delete/{id}")
+    public ResponseEntity<?> deleteProductById(@PathVariable("id") int id){
+        try {
+            productService.softDeleteProductById(id);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @PutMapping ("/admin/ActiveProduct/{id}")
+    public ResponseEntity<?> activeProductById(@PathVariable("id") int id){
+        try {
+            productService.setActiveProductById(id);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
     @PostMapping("/admin/save/product")
     public ResponseEntity<Product> addProduct(@RequestBody Product product){
         try{
