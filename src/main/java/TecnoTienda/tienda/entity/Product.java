@@ -12,7 +12,6 @@ import org.hibernate.annotations.*;
 @Getter
 @Setter
 @Entity
-@SQLRestriction("status = 'on'")
 public class Product {
 
     @Id

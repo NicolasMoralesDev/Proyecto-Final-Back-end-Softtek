@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,13 +36,14 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
-    public Product findById(int id){
-        return productDao.findById(id).get();
+    public Optional<Product> findById(int id){
+        return productDao.findById(id);
     }
 
     @Override
     public void softDeleteProductById(int id){
         productDao.softDeleteProductById(id);
+
     }
     @Override
     public void setActiveProductById(int id){
