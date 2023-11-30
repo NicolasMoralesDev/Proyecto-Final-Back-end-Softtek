@@ -1,0 +1,92 @@
+https://dbdiagram.io/d/6560e2503be1495787af2b65
+
+Table products {
+  id integer [primary key]
+  name string
+  description string
+  price integer
+  category_id string
+  brand string
+  image_url string
+  enabled boolean
+}
+
+Table users {
+  id integer [primary key]
+  email string
+  full_name string
+  password string
+  role enum
+  created_at timestamp
+  enabled boolean
+}
+
+Table sale {
+  id integer [primary key]
+  user_id integer
+  address string
+  total integer
+  created_at timestamp
+}
+
+Table sale_item {
+  id integer [primary key]
+  sale_id integer
+  product_id integer
+  quantity integer
+}
+
+Table category {
+  id integer [primary key]
+  name string
+  image_url string
+}
+
+Ref: sale_item.sale_id > sale.id // many-to-one
+Ref: sale_item.product_id > products.id // many-to-one
+Ref: sale.user_id > users.id // many-to-one
+Ref: products.category_id > category.id //many-to-one
+
+
+<APIs PUBLICAS>
+
+GET apí/public/products?page=n - lista de productos paginable
+GET apí/public/products/{id} - detalles de un producto
+GET apí/public/categories - lista de categorias
+GET api/public/products/categories/{id} - lista de productos por categoria
+
+<APIs PARA USUARIOS>
+
+POST api/auth/register - crear un usuario
+POST api/auth/login - login de usuario
+GET api/auth/me - datos del usuario logueado
+POST api/user/sales - crear una venta
+GET api/user/sales - lista de ventas del usuario logueado (se hace con el token, no con el id)
+
+<APIs PARA ADMIN>
+
+POST api/admin/products - crear un producto
+PUT api/admin/products/{id} - actualizar un producto
+DELETE api/admin/products/{id} - eliminar un producto
+POST api/admin/categories - crear una categoria
+PUT api/admin/categories/{id} - actualizar una categoria
+DELETE api/admin/categories/{id} - eliminar una categoria
+GET api/admin/sales - lista de ventas
+
+Front:
+* Funcionalidad barra de búsqueda
+* ¿Unificar "Armá tu PC" y "Productos"? ¿O dejarlos separados?
+* Panel de administrador (CRUD Productos y Categorías) por el tema de la seccion de categorías
+* Carrito de compras -> Procesar compra
+* Login y registro de usuarios
+* Detalle de producto (con botón de agregar al carrito) por id
+* Listado de productos por categoría
+* Paginación de productos
+* Corregir estilos
+
+Back:
+* Security, auth y roles
+* Entidad Categorías
+* Paginación de productos
+* Endpoint para procesar compra | Api Mercadopago
+* Endpoints definidos mas arriba

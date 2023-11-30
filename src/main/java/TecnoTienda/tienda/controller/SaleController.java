@@ -27,10 +27,8 @@ public class SaleController {
     @Autowired
     ProductService productService;
 
-
-    @PostMapping("/sale/save")
     @Operation(summary = "Endpoint publico, Crea ordenes")
-    @PostMapping("/order/save")
+    @PostMapping("/sale/save")
     public ResponseEntity<?> saveOrder(@RequestBody List<Item> itemList){
         try {
             Sale sale = new Sale();
