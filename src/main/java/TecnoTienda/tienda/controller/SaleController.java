@@ -1,12 +1,12 @@
 package TecnoTienda.tienda.controller;
 
 
-import TecnoTienda.tienda.dao.IItemDao;
-import TecnoTienda.tienda.dao.ISaleDao;
 import TecnoTienda.tienda.entity.Item;
 import TecnoTienda.tienda.entity.Sale;
+import TecnoTienda.tienda.entity.User;
 import TecnoTienda.tienda.service.SaleService;
 import TecnoTienda.tienda.service.ProductService;
+import TecnoTienda.tienda.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,21 +26,24 @@ public class SaleController {
     SaleService saleService;
     @Autowired
     ProductService productService;
+    @Autowired
+    UserService userService;
 
-
+    @Operation(summary = "Endpoint de acceso Rol Usuario, Guarda una orden ")
     @PostMapping("/sale/save")
-    @Operation(summary = "Endpoint publico, Crea ordenes")
-    @PostMapping("/order/save")
-    public ResponseEntity<?> saveOrder(@RequestBody List<Item> itemList){
+    public ResponseEntity<?> saveSale(@RequestBody List<Item> itemList,
+                                      @RequestBody int id){
         try {
+            User user = userService.findById(id);
             Sale sale = new Sale();
             for (Item item : itemList) {
                 Item i = new Item();
-                i.setProduct(productService.findById(item.getProduct().getId()));
+                i.setProduct(productService.findById(item.getProduct().getId()).get());
                 i.setAmount(item.getAmount());
                 i.setSale(sale);
                 sale.getItemList().add(i);
             }
+            sale.setUser(user);
             saleService.saveSale(sale);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }catch (Exception e){

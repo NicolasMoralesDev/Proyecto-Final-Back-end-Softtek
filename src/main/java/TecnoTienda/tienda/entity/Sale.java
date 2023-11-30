@@ -29,5 +29,6 @@ public class Sale {
 
     private LocalDate date = LocalDate.now();
 
-
+    @ManyToOne
+    private User user;
 }

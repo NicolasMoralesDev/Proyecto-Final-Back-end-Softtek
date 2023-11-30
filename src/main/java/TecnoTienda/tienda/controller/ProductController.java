@@ -34,11 +34,11 @@ public class ProductController {
         }
     }
 
-    @Operation(summary = "Endpoint publico, Traer producto por Id")
+    @Operation(summary = "Endpoint de acceso Rol publico, Traer producto por Id")
     @GetMapping("/public/productById/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable("id") int id){
         try{
-            Product product = productService.findById(id);
+            Product product = productService.findById(id).get();
             return ResponseEntity.status(HttpStatus.FOUND).body(product);
         }catch (Exception e){
             e.printStackTrace();
@@ -46,7 +46,7 @@ public class ProductController {
         }
     }
     
-    @Operation(summary = "Endpoint publico, Traer categoria por Id")
+    @Operation(summary = "Endpoint de acceso Rol publico, Busca Productos por id y los filtra por categoria")
     @GetMapping("/public/productByCategory/{category}")
     public ResponseEntity<List<Product>> getProductByCategory(@PathVariable("category") String category){
         try{
@@ -58,7 +58,8 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/admin/delete/{id}")
+    @Operation(summary = "Endpoint solo accesible con rol de Admin, Desactiva un producto que este Activado")
+    @DeleteMapping("/admin/delete/{id}")
     public ResponseEntity<?> deleteProductById(@PathVariable("id") int id){
         try {
             productService.softDeleteProductById(id);
@@ -68,6 +69,8 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @Operation(summary = "Endpoint solo accesible con rol de Admin, Activa un producto que este desactivado")
     @PutMapping ("/admin/ActiveProduct/{id}")
     public ResponseEntity<?> activeProductById(@PathVariable("id") int id){
         try {
@@ -79,7 +82,7 @@ public class ProductController {
         }
     }
 
-    @Operation(summary = "Endpoint protegido, guardar Admi")
+    @Operation(summary = "Endpoint solo accesible con rol de Admin, guardar un producto en la base de datos")
     @PostMapping("/admin/save/product")
     public ResponseEntity<Product> addProduct(@RequestBody Product product){
         try{

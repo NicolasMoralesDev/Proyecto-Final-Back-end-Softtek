@@ -12,7 +12,7 @@ public interface ProductService {
 
     public List<Product> getAllProducts();
 
-    public Product findById(int id);
+    public Optional<Product> findById(int id);
 
     public List<Product> findByCategory(String category);
 
