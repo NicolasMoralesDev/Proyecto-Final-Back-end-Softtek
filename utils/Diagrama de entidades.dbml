@@ -48,30 +48,36 @@ Ref: sale.user_id > users.id // many-to-one
 Ref: products.category_id > category.id //many-to-one
 
 
-<APIs PUBLICAS>
+<ENDPOINTS PUBLICAS>
 
-GET apí/public/products?page=n - lista de productos paginable
+GET apí/public/products?page=n - lista de productos
+GET apí/public/products?query='assd' - lista de productos filtrados por busqueda
 GET apí/public/products/{id} - detalles de un producto
 GET apí/public/categories - lista de categorias
 GET api/public/products/categories/{id} - lista de productos por categoria
+POST api/public/auth/register - crear un usuario
+POST api/public/auth/login - login de usuario
 
-<APIs PARA USUARIOS>
+<ENDPOINTS PARA USUARIOS>
 
-POST api/auth/register - crear un usuario
-POST api/auth/login - login de usuario
-GET api/auth/me - datos del usuario logueado
 POST api/user/sales - crear una venta
 GET api/user/sales - lista de ventas del usuario logueado (se hace con el token, no con el id)
 
-<APIs PARA ADMIN>
+<ENDPOINTS PARA ADMIN>
 
-POST api/admin/products - crear un producto
-PUT api/admin/products/{id} - actualizar un producto
-DELETE api/admin/products/{id} - eliminar un producto
-POST api/admin/categories - crear una categoria
-PUT api/admin/categories/{id} - actualizar una categoria
-DELETE api/admin/categories/{id} - eliminar una categoria
+POST api/admin/products - crear un producto +
+PUT api/admin/products/{id} - actualizar un producto +
+DELETE api/admin/products/{id} - eliminar un producto +
+POST api/admin/categories - crear una categoria x
+PUT api/admin/categories/{id} - actualizar una categoria x
+DELETE api/admin/categories/{id} - eliminar una categoria x
 GET api/admin/sales - lista de ventas
+GET api/admin/users - lista de usuarios
+
+
+
+
+ventas: ventas por usuario | todas las ventas
 
 Front:
 * Funcionalidad barra de búsqueda
