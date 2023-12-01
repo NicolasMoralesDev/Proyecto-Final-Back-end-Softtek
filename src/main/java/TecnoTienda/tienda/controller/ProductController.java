@@ -25,8 +25,7 @@ public class ProductController {
     @GetMapping("/public/listproduct")
     public ResponseEntity<List<Product>> getAllProduct(){
         try{
-            List<Product> productList = productService.getAllProducts();
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(productList);
+           return new ResponseEntity(productService.getAllProducts(), HttpStatus.ACCEPTED);
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

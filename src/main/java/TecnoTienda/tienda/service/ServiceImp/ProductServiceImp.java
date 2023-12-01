@@ -1,6 +1,7 @@
 package TecnoTienda.tienda.service.ServiceImp;
 
 import TecnoTienda.tienda.dao.IProductDao;
+import TecnoTienda.tienda.dto.ProductDTO;
 import TecnoTienda.tienda.entity.Product;
 import TecnoTienda.tienda.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,12 @@ public class ProductServiceImp implements ProductService {
         return productDao.findByCategory(category);
     }
     @Override
-    public List<Product> getAllProducts(){
-        return productDao.findAll();
+    public ProductDTO getAllProducts(){
+        
+        ProductDTO producto = new ProductDTO();
+        producto.setProductos(productDao.findAll());
+        producto.setTotal(productDao.findAll().size());
+        return producto;
     }
 
     @Override
