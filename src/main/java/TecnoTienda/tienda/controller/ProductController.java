@@ -17,7 +17,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api")
 public class ProductController {
-//Prueba mi rama
     @Autowired
     ProductService productService;
 
