@@ -20,7 +20,7 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
-
+    // ----   METODOS PUBLICOS
     @Operation(summary = "Endpoint publico, Traer Todos los Productos")
     @GetMapping("/public/listproduct")
     public ResponseEntity<List<Product>> getAllProduct(){
