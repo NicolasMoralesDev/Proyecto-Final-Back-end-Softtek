@@ -1,6 +1,8 @@
 package TecnoTienda.tienda.controller;
 
 
+import TecnoTienda.tienda.dao.IProductDao;
+import TecnoTienda.tienda.dto.ProductDTO;
 import TecnoTienda.tienda.entity.Product;
 import TecnoTienda.tienda.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,18 +19,31 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api")
 public class ProductController {
+    
     @Autowired
     ProductService productService;
+    
+    @Autowired
+    IProductDao productDao;
 
     // ----   METODOS PUBLICOS
     @Operation(summary = "Endpoint publico, Traer Todos los Productos")
     @GetMapping("/public/listproduct")
-    public ResponseEntity<List<Product>> getAllProduct(){
+    public ResponseEntity<?> getAllProduct(@RequestParam int page){
         try{
-           return new ResponseEntity(productService.getAllProducts(), HttpStatus.ACCEPTED);
+           
+            ProductDTO listProducts = new ProductDTO();
+            listProducts.setPage(productService.getAllProducts(page).getPageable().getPageNumber());
+            listProducts.setProductos(productService.getAllProducts(page).getContent());
+            listProducts.setTotal(productService.getAllProducts(page).getTotalPages());
+            
+           return new ResponseEntity(listProducts, HttpStatus.ACCEPTED);
+           
         }catch (Exception e){
+            
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            
         }
     }
 
