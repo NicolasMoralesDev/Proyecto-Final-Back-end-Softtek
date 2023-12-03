@@ -1,0 +1,27 @@
+services:
+  db:
+    container_name: m7-mysql # Nombre del contenedor
+    image: mysql:8.0.33 # Imagen de la base de datos, en este caso se usa MySQL
+    ports: # Puertos que se exponen
+      - 3306:3306
+    environment: # Variables de entorno
+      MYSQL_DATABASE: tecnotienda
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root
+
+    volumes: # Ubicación donde se guardarán los datos
+      - academia_db:/var/lib/mysql
+    networks: # Red de Docker por la que se comunicará con otros contenedores
+      - academia
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost", "-uroot", "-p$$MYSQL_ROOT_PASSWORD" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+networks: # Configuración de la red de docker
+  academia:
+    driver: bridge
+volumes: # Configuración del almacen de datos de docker
+  academia_db:

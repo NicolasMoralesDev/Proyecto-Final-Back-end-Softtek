@@ -3,6 +3,7 @@ package TecnoTienda.tienda.controller;
 import TecnoTienda.tienda.entity.Product;
 import TecnoTienda.tienda.entity.User;
 import TecnoTienda.tienda.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
-
+    @Operation(summary = "Endpoint publico, Crea usuario")
     @PostMapping("/save/user")
     public ResponseEntity<User> saveUser(@RequestBody User user){
         try{
@@ -27,6 +28,8 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
     }
+    
+    @Operation(summary = "Endpoint privado, trae todos los usuarios existentes")    
     @GetMapping("/admin/users")
     public ResponseEntity<List<User>> getUsers(){
         try {
@@ -38,6 +41,7 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Endpoint privado, trae un usuario por su id")
     @GetMapping("/admin/user/{id}")
     public ResponseEntity<User> getUserById(@PathVariable("id") int id){
         try {

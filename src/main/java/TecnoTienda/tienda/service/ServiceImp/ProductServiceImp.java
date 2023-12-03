@@ -1,6 +1,7 @@
 package TecnoTienda.tienda.service.ServiceImp;
 
 import TecnoTienda.tienda.dao.IProductDao;
+import TecnoTienda.tienda.dto.ProductDTO;
 import TecnoTienda.tienda.entity.Product;
 import TecnoTienda.tienda.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,9 @@ import org.springframework.stereotype.Service;
 import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class ProductServiceImp implements ProductService {
@@ -31,8 +35,10 @@ public class ProductServiceImp implements ProductService {
         return productDao.findByCategory(category);
     }
     @Override
-    public List<Product> getAllProducts(){
-        return productDao.findAll();
+    public Page <Product> getAllProducts(int page){
+        
+        Pageable pageable = PageRequest.of(page,10);
+        return productDao.findAll(pageable);
     }
 
     @Override
