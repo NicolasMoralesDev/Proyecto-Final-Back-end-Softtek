@@ -2,9 +2,9 @@ package TecnoTienda.tienda.service.ServiceImp;
 
 import TecnoTienda.tienda.config.JwtService;
 import TecnoTienda.tienda.dao.IUserDao;
-import TecnoTienda.tienda.dto.AuthenticationResponse;
-import TecnoTienda.tienda.dto.LoginRequest;
-import TecnoTienda.tienda.dto.RegisterRequest;
+import TecnoTienda.tienda.dto.AuthenticationResponseDTO;
+import TecnoTienda.tienda.dto.LoginRequestDTO;
+import TecnoTienda.tienda.dto.RegisterRequestDTO;
 import TecnoTienda.tienda.entity.*;
 import TecnoTienda.tienda.exceptions.UserValidationException;
 import TecnoTienda.tienda.role.Role;
@@ -28,7 +28,7 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public AuthenticationResponse login(LoginRequest request){
+    public AuthenticationResponseDTO login(LoginRequestDTO request){
 
         // User authentication. If the user is not found or the password is incorrect, an exception is thrown.
         authenticationManager.authenticate(
@@ -48,14 +48,14 @@ public class AuthServiceImpl implements AuthService {
 
         // Return the token in a AuthenticationResponse object. This object is converted to JSON and returned to the client.
         // it only contains the token.
-        return AuthenticationResponse
+        return AuthenticationResponseDTO
                 .builder()
                 .token(jwtToken)
                 .build();
     }
 
     @Override
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationResponseDTO register(RegisterRequestDTO request) {
 
         // Validate user data
         validateUser(request);
@@ -74,7 +74,7 @@ public class AuthServiceImpl implements AuthService {
         String jwtToken = generateTokenWithExtraClaims(user);
 
         // Return the token in a AuthenticationResponse object. This object is converted to JSON and returned to the client.
-        return AuthenticationResponse
+        return AuthenticationResponseDTO
                 .builder()
                 .token(jwtToken)
                 .build();
@@ -84,7 +84,7 @@ public class AuthServiceImpl implements AuthService {
      * This method validate the user data. If the data is not valid, an exception is thrown.
      * @param request RegisterRequest, contains the user data.
      */
-    private void validateUser(RegisterRequest request) {
+    private void validateUser(RegisterRequestDTO request) {
         if (request.getEmail() == null || request.getEmail().isEmpty()) {
             throw new UserValidationException("Email cannot be empty.");
         }

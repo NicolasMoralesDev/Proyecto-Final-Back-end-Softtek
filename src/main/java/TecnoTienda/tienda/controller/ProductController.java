@@ -115,7 +115,7 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.CREATED).body("Productos agregados correctamente");
         }catch (Exception e){
             e.printStackTrace();
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
