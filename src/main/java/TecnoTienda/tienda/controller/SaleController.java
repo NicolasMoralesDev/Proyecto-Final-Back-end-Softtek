@@ -28,24 +28,28 @@ public class SaleController {
     @Autowired
     UserService userService;
 
-//    @Operation(summary = "Endpoint de acceso Rol Usuario, Guarda una orden ")
-//    @PostMapping("/sale/save")
-//    public ResponseEntity<?> saveSale(@RequestBody SaleDTO saleDto){
-//        try {
-//            User user = userService.findById(saleDto.getIdUser());
-//            Sale sale = new Sale();
-//            for (Item item : saleDto.getItemList()) {
-//                Item i = new Item();
-//                i.setProduct(productService.findById(item.getProduct().getId()).get());
-//                i.setAmount(item.getAmount());
-//                i.setSale(sale);
-//                sale.getItemList().add(i);
-//            }
-//            sale.setUser(user);
-//            saleService.saveSale(sale);
-//            return ResponseEntity.status(HttpStatus.CREATED).build();
-//        }catch (Exception e){
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-//        }
-//    }
+
+    @Operation(summary = "Endpoint de acceso Rol Usuario, Guarda una orden ")
+    @PostMapping("/sale/save")
+
+    public ResponseEntity<?> saveSale(@RequestBody List<Item> itemList,
+                                      @PathVariable("id") int id){
+        try {
+            User user = userService.findById(saleDto.getIdUser());
+            Sale sale = new Sale();
+            for (Item item : saleDto.getItemList()) {
+                Item i = new Item();
+                i.setProduct(productService.findById(item.getProduct().getId()).get());
+                i.setAmount(item.getAmount());
+                i.setSale(sale);
+                sale.getItemList().add(i);
+            }
+            sale.setUser(user);
+            saleService.saveSale(sale);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
 }
