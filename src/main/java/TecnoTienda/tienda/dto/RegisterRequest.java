@@ -1,4 +1,4 @@
-package TecnoTienda.tienda.entity;
+package TecnoTienda.tienda.dto;
 
 import lombok.*;
 
