@@ -16,7 +16,7 @@ public interface ProductService {
 
     public Optional<Product> findById(int id);
 
-    public List<Product> findByCategory(String category);
+    public Page<Product> findByCategory(String category, int page);
 
     public void softDeleteProductById(int id);
 

@@ -28,6 +28,7 @@ public class SaleController {
     @Autowired
     UserService userService;
 
+
     @Operation(summary = "Endpoint de acceso Rol Usuario, Guarda una orden ")
     @PostMapping("/sale/save")
 
@@ -50,4 +51,5 @@ public class SaleController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+
 }
