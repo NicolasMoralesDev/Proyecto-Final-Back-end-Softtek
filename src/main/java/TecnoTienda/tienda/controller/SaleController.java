@@ -30,7 +30,9 @@ public class SaleController {
 
     @Operation(summary = "Endpoint de acceso Rol Usuario, Guarda una orden ")
     @PostMapping("/sale/save")
-    public ResponseEntity<?> saveSale(@RequestBody SaleDTO saleDto){
+
+    public ResponseEntity<?> saveSale(@RequestBody List<Item> itemList,
+                                      @PathVariable("id") int id){
         try {
             User user = userService.findById(saleDto.getIdUser());
             Sale sale = new Sale();
