@@ -57,10 +57,14 @@ public class ProductController {
     
     @Operation(summary = "Endpoint de acceso Rol publico, Busca Productos por id y los filtra por categoria")
     @GetMapping("/public/products/categories/{category}")
-    public ResponseEntity<List<Product>> getProductByCategory(@PathVariable("category") String category){
+    public ResponseEntity<?> getProductByCategory(@PathVariable("category") String category, @RequestParam int page){
         try{
-            List<Product> products = productService.findByCategory(category);
-            return ResponseEntity.status(HttpStatus.FOUND).body(products);
+            ProductDTO listProducts = new ProductDTO();
+            listProducts.setPage(productService.findByCategory(category, page).getPageable().getPageNumber());
+            listProducts.setProductos(productService.findByCategory(category, page).getContent());
+            listProducts.setTotal(productService.findByCategory(category, page).getTotalPages());
+
+            return ResponseEntity.status(HttpStatus.FOUND).body(listProducts);
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
