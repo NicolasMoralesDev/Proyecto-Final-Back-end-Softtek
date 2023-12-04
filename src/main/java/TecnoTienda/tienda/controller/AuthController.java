@@ -1,8 +1,8 @@
 package TecnoTienda.tienda.controller;
 
-import TecnoTienda.tienda.dto.AuthenticationResponse;
-import TecnoTienda.tienda.dto.LoginRequest;
-import TecnoTienda.tienda.dto.RegisterRequest;
+import TecnoTienda.tienda.dto.AuthenticationResponseDTO;
+import TecnoTienda.tienda.dto.LoginRequestDTO;
+import TecnoTienda.tienda.dto.RegisterRequestDTO;
 import TecnoTienda.tienda.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,10 +22,10 @@ public class AuthController {
      * @return ResponseEntity<AuthenticationResponse>, contains the token or an error.
      */
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody RegisterRequest request
+    public ResponseEntity<AuthenticationResponseDTO> register(
+            @RequestBody RegisterRequestDTO request
     ){
-        AuthenticationResponse registerResponse = authService.register(request);
+        AuthenticationResponseDTO registerResponse = authService.register(request);
         return ResponseEntity.ok(registerResponse);
     }
 
@@ -35,10 +35,10 @@ public class AuthController {
      * @return ResponseEntity<AuthenticationResponse>, contains the token or an error.
      */
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody LoginRequest request
+    public ResponseEntity<AuthenticationResponseDTO> register(
+            @RequestBody LoginRequestDTO request
     ){
-        AuthenticationResponse loginResponse = authService.login(request);
+        AuthenticationResponseDTO loginResponse = authService.login(request);
         return ResponseEntity.ok(loginResponse);
     }
 }

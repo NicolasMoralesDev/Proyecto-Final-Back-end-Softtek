@@ -17,18 +17,6 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @Operation(summary = "Endpoint publico, Crea usuario")
-    @PostMapping("/save/user")
-    public ResponseEntity<User> saveUser(@RequestBody User user){
-        try{
-            User userSaved = userService.saveUser(user);
-            return ResponseEntity.status(HttpStatus.CREATED).body(userSaved);
-        }catch (Exception e){
-            e.printStackTrace();
-            return ResponseEntity.badRequest().build();
-        }
-    }
-    
     @Operation(summary = "Endpoint privado, trae todos los usuarios existentes")    
     @GetMapping("/admin/users")
     public ResponseEntity<List<User>> getUsers(){
