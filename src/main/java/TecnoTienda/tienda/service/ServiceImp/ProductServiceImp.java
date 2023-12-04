@@ -36,7 +36,6 @@ public class ProductServiceImp implements ProductService {
     }
     @Override
     public Page <Product> getAllProducts(int page){
-        
         Pageable pageable = PageRequest.of(page,10);
         return productDao.findAll(pageable);
     }
