@@ -7,14 +7,11 @@ import TecnoTienda.tienda.entity.Product;
 import TecnoTienda.tienda.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -26,7 +23,7 @@ public class ProductController {
 
     // ----   METODOS PUBLICOS
     @Operation(summary = "Endpoint publico, Traer Todos los Productos")
-    @GetMapping("/public/listproduct")
+    @GetMapping("/public/products")
     public ResponseEntity<?> getAllProduct(@RequestParam int page){
         try{
            
@@ -35,7 +32,7 @@ public class ProductController {
             listProducts.setProductos(productService.getAllProducts(page).getContent());
             listProducts.setTotal(productService.getAllProducts(page).getTotalPages());
             
-           return new ResponseEntity(listProducts, HttpStatus.ACCEPTED);
+           return new ResponseEntity<>(listProducts, HttpStatus.ACCEPTED);
            
         }catch (Exception e){
             
@@ -46,7 +43,7 @@ public class ProductController {
     }
 
     @Operation(summary = "Endpoint de acceso Rol publico, Traer producto por Id")
-    @GetMapping("/public/productById/{id}")
+    @GetMapping("/public/products/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable("id") int id){
         try{
             Product product = productService.findById(id).get();
@@ -58,7 +55,7 @@ public class ProductController {
     }
     
     @Operation(summary = "Endpoint de acceso Rol publico, Busca Productos por id y los filtra por categoria")
-    @GetMapping("/public/productByCategory/{category}")
+    @GetMapping("/public/products/categories/{category}")
     public ResponseEntity<List<Product>> getProductByCategory(@PathVariable("category") String category){
         try{
             List<Product> products = productService.findByCategory(category);
@@ -70,7 +67,7 @@ public class ProductController {
     }
 
     @Operation(summary = "Endpoint solo accesible con rol de Admin, Desactiva un producto que este Activado")
-    @DeleteMapping("/admin/delete/{id}")
+    @DeleteMapping("/admin/products/{id}")
     public ResponseEntity<?> deleteProductById(@PathVariable("id") int id){
         try {
             productService.softDeleteProductById(id);
@@ -94,7 +91,7 @@ public class ProductController {
     }
 
     @Operation(summary = "Endpoint solo accesible con rol de Admin, guardar un producto en la base de datos")
-    @PostMapping("/admin/save/product")
+    @PostMapping("/admin/products")
     public ResponseEntity<Product> addProduct(@RequestBody Product product){
         try{
             Product productSaved = productService.addProduct(product);
