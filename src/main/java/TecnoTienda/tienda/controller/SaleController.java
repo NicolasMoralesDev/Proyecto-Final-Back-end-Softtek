@@ -1,6 +1,7 @@
 package TecnoTienda.tienda.controller;
 
 
+import TecnoTienda.tienda.dto.SaleDTO;
 import TecnoTienda.tienda.entity.Item;
 import TecnoTienda.tienda.entity.Sale;
 import TecnoTienda.tienda.entity.User;
@@ -31,12 +32,11 @@ public class SaleController {
 
     @Operation(summary = "Endpoint de acceso Rol Usuario, Guarda una orden ")
     @PostMapping("/sale/save")
-    public ResponseEntity<?> saveSale(@RequestBody List<Item> itemList,
-                                      @RequestBody int id){
+    public ResponseEntity<?> saveSale(@RequestBody SaleDTO saleDto){
         try {
-            User user = userService.findById(id);
+            User user = userService.findById(saleDto.getIdUser());
             Sale sale = new Sale();
-            for (Item item : itemList) {
+            for (Item item : saleDto.getItemList()) {
                 Item i = new Item();
                 i.setProduct(productService.findById(item.getProduct().getId()).get());
                 i.setAmount(item.getAmount());

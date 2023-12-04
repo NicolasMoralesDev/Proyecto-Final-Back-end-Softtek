@@ -31,8 +31,8 @@ public class ProductController {
             listProducts.setPage(productService.getAllProducts(page).getPageable().getPageNumber());
             listProducts.setProductos(productService.getAllProducts(page).getContent());
             listProducts.setTotal(productService.getAllProducts(page).getTotalPages());
-            
-           return new ResponseEntity<>(listProducts, HttpStatus.ACCEPTED);
+
+           return ResponseEntity.status(HttpStatus.ACCEPTED).body(listProducts);
            
         }catch (Exception e){
             
@@ -50,7 +50,7 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.FOUND).body(product);
         }catch (Exception e){
             e.printStackTrace();
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
     
@@ -62,7 +62,7 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.FOUND).body(products);
         }catch (Exception e){
             e.printStackTrace();
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
@@ -74,7 +74,7 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.OK).build();
         }catch (Exception e){
             e.printStackTrace();
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
@@ -86,7 +86,7 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.OK).build();
         }catch (Exception e){
             e.printStackTrace();
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
@@ -98,7 +98,7 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.CREATED).body(productSaved);
         }catch (Exception e){
             e.printStackTrace();
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 

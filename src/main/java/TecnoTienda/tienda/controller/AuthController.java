@@ -1,8 +1,8 @@
 package TecnoTienda.tienda.controller;
 
-import TecnoTienda.tienda.entity.AuthenticationResponse;
-import TecnoTienda.tienda.entity.LoginRequest;
-import TecnoTienda.tienda.entity.RegisterRequest;
+import TecnoTienda.tienda.dto.AuthenticationResponse;
+import TecnoTienda.tienda.dto.LoginRequest;
+import TecnoTienda.tienda.dto.RegisterRequest;
 import TecnoTienda.tienda.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

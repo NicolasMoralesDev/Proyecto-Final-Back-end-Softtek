@@ -1,6 +1,5 @@
 package TecnoTienda.tienda.config;
 
-import TecnoTienda.tienda.entity.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

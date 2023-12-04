@@ -2,8 +2,12 @@ package TecnoTienda.tienda.service.ServiceImp;
 
 import TecnoTienda.tienda.config.JwtService;
 import TecnoTienda.tienda.dao.IUserDao;
+import TecnoTienda.tienda.dto.AuthenticationResponse;
+import TecnoTienda.tienda.dto.LoginRequest;
+import TecnoTienda.tienda.dto.RegisterRequest;
 import TecnoTienda.tienda.entity.*;
 import TecnoTienda.tienda.exceptions.UserValidationException;
+import TecnoTienda.tienda.role.Role;
 import TecnoTienda.tienda.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
