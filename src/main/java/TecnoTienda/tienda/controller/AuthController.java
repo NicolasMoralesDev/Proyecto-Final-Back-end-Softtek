@@ -35,7 +35,7 @@ public class AuthController {
      * @return ResponseEntity<AuthenticationResponse>, contains the token or an error.
      */
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> register(
+    public ResponseEntity<AuthenticationResponse> login(
             @RequestBody LoginRequest request
     ){
         AuthenticationResponse loginResponse = authService.login(request);
