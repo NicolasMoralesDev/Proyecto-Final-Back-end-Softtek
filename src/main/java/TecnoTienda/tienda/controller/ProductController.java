@@ -22,9 +22,7 @@ public class ProductController {
     
     @Autowired
     ProductService productService;
-    
-    @Autowired
-    IProductDao productDao;
+
 
     // ----   METODOS PUBLICOS
     @Operation(summary = "Endpoint publico, Traer Todos los Productos")
