@@ -104,4 +104,16 @@ public class ProductController {
         }
     }
 
+    @Operation(summary = "Endpoint solo accesible con rol de Admin, Agrega un bulk de productos a la base de datos")
+    @PostMapping("/admin/products/bulk")
+    public ResponseEntity<?> addBulkProduct(@RequestBody List<Product> products){
+        try{
+            productService.addBulkProducts(products);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Productos agregados correctamente");
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 }

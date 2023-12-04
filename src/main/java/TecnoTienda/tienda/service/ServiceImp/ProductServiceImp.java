@@ -55,4 +55,9 @@ public class ProductServiceImp implements ProductService {
     public void setActiveProductById(int id){
         productDao.setActiveProductById(id);
     }
+
+    @Override
+    public void addBulkProducts(List<Product> products){
+        productDao.saveAll(products);
+    }
 }
