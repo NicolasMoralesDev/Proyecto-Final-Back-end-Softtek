@@ -21,4 +21,6 @@ public interface ProductService {
     public void softDeleteProductById(int id);
 
     public void setActiveProductById(int id);
+
+    public void addBulkProducts(List<Product> products);
 }

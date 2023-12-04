@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "*")
 public class ProductController {
     
     @Autowired
@@ -98,6 +99,18 @@ public class ProductController {
         try{
             Product productSaved = productService.addProduct(product);
             return ResponseEntity.status(HttpStatus.CREATED).body(productSaved);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @Operation(summary = "Endpoint solo accesible con rol de Admin, Agrega un bulk de productos a la base de datos")
+    @PostMapping("/admin/products/bulk")
+    public ResponseEntity<?> addBulkProduct(@RequestBody List<Product> products){
+        try{
+            productService.addBulkProducts(products);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Productos agregados correctamente");
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
