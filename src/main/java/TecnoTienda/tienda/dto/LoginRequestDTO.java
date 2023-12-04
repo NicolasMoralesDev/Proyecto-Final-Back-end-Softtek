@@ -1,4 +1,4 @@
-package TecnoTienda.tienda.entity;
+package TecnoTienda.tienda.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginRequest {
+public class LoginRequestDTO {
     private String email;
     private String password;
 }

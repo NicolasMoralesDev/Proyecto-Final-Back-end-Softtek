@@ -36,7 +36,6 @@ public class ProductServiceImp implements ProductService {
     }
     @Override
     public Page <Product> getAllProducts(int page){
-        
         Pageable pageable = PageRequest.of(page,10);
         return productDao.findAll(pageable);
     }
@@ -54,5 +53,10 @@ public class ProductServiceImp implements ProductService {
     @Override
     public void setActiveProductById(int id){
         productDao.setActiveProductById(id);
+    }
+
+    @Override
+    public void addBulkProducts(List<Product> products){
+        productDao.saveAll(products);
     }
 }

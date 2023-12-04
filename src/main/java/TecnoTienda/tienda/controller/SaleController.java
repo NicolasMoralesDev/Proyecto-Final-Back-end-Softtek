@@ -1,6 +1,7 @@
 package TecnoTienda.tienda.controller;
 
 
+import TecnoTienda.tienda.dto.SaleDTO;
 import TecnoTienda.tienda.entity.Item;
 import TecnoTienda.tienda.entity.Sale;
 import TecnoTienda.tienda.entity.User;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
+@CrossOrigin(origins = "*")
 public class SaleController {
 
     @Autowired
@@ -28,12 +30,13 @@ public class SaleController {
 
     @Operation(summary = "Endpoint de acceso Rol Usuario, Guarda una orden ")
     @PostMapping("/sale/save")
+
     public ResponseEntity<?> saveSale(@RequestBody List<Item> itemList,
                                       @PathVariable("id") int id){
         try {
-            User user = userService.findById(id);
+            User user = userService.findById(saleDto.getIdUser());
             Sale sale = new Sale();
-            for (Item item : itemList) {
+            for (Item item : saleDto.getItemList()) {
                 Item i = new Item();
                 i.setProduct(productService.findById(item.getProduct().getId()).get());
                 i.setAmount(item.getAmount());

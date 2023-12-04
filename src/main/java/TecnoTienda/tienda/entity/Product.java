@@ -20,6 +20,8 @@ public class Product {
 
     private String name;
 
+    // Column "TEXT type
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     private double price;
