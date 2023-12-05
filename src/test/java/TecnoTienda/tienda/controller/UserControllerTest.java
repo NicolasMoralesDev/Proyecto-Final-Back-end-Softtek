@@ -1,6 +1,8 @@
 package TecnoTienda.tienda.controller;
 
+
 import TecnoTienda.tienda.entity.ChangePasswordRequest;
+
 import TecnoTienda.tienda.entity.User;
 import TecnoTienda.tienda.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -20,7 +22,6 @@ import static org.mockito.Mockito.*;
 public class UserControllerTest {
     @InjectMocks
     private UserController userController;
-
     @Mock
     private UserService userService;
 

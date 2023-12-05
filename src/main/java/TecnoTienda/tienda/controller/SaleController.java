@@ -32,8 +32,10 @@ public class SaleController {
     @Operation(summary = "Endpoint de acceso Rol Usuario, Guarda una orden ")
     @PostMapping("/sale/save")
 
+
     public ResponseEntity<?> saveSale(@RequestBody SaleDTO saleDto,
                                       @PathVariable("id") int id) {
+
         try {
             User user = userService.findById(id);
             Sale sale = new Sale();
@@ -54,4 +56,5 @@ public class SaleController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+
 }

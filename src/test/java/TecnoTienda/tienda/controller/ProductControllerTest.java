@@ -70,19 +70,23 @@ public class ProductControllerTest {
     @Test
     public void testGetProductByCategory() {
         // Configuración del servicio simulado
+
         String category = "gpu";
         int page = 1;
         Page<Product> products = new PageImpl<>(Collections.singletonList(new Product()));
 
         Mockito.when(productService.findByCategory(category, page)).thenReturn(products);
 
+
         // Llamada al controlador y verificación de resultados
         ResponseEntity<?> responseEntity = productController.getProductByCategory(category, page);
         assertEquals(HttpStatus.FOUND, responseEntity.getStatusCode());
         assertTrue(responseEntity.getBody() instanceof ProductDTO);
 
+
         ProductDTO productDTO = (ProductDTO) responseEntity.getBody();
         assertTrue(productDTO.getProductos() != null && !productDTO.getProductos().isEmpty());
+
 
     }
 }
