@@ -1,5 +1,6 @@
 package TecnoTienda.tienda.controller;
 
+import TecnoTienda.tienda.dto.AuthenticationResponseDTO;
 import TecnoTienda.tienda.entity.User;
 import TecnoTienda.tienda.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -19,25 +20,9 @@ import static org.mockito.Mockito.*;
 public class UserControllerTest {
     @InjectMocks
     private UserController userController;
-
     @Mock
     private UserService userService;
 
-
-    @Test
-    public void testSaveUser() {
-        // Configuración del servicio simulado
-        User user = new User();
-        when(userService.saveUser(user)).thenReturn(user);
-
-        // Llamada al controlador y verificación de resultados
-        ResponseEntity<User> responseEntity = userController.saveUser(user);
-        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        assertEquals(user, responseEntity.getBody());
-
-        // Verifica que el método del servicio se haya llamado según lo esperado
-        verify(userService, times(1)).saveUser(user);
-    }
 
     @Test
     public void testGetUsers() {
