@@ -31,7 +31,9 @@ public class SaleController {
 
     @Operation(summary = "Endpoint de acceso Rol Usuario, Guarda una orden ")
     @PostMapping("/sale/save")
-    public ResponseEntity<?> saveSale(@RequestBody SaleDTO saleDto){
+
+    public ResponseEntity<?> saveSale(@RequestBody List<Item> itemList,
+                                      @PathVariable("id") int id){
         try {
             User user = userService.findById(saleDto.getIdUser());
             Sale sale = new Sale();
@@ -51,11 +53,9 @@ public class SaleController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
-
     @Operation(summary = "Endpoint para traer las ventas de un Usuario")
     @GetMapping("/sale/{id}")
     public ResponseEntity<SaleDTO> getSaleByUserId(@PathVariable("id") int id){
         SaleDTO saleDto = saleService.saleByUserId(id);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(saleDto);
     }
-}

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 
 @Repository
@@ -18,7 +20,7 @@ public interface IProductDao extends JpaRepository<Product,Integer> {
 
 
     @Query("SELECT p FROM Product  p WHERE p.category = :category AND p.status = 'on'")
-    List<Product> findByCategory(@Param("category")String category);
+    Page<Product> findByCategory(@Param("category")String category,  Pageable pageable);
 
 
 
