@@ -4,12 +4,12 @@ package TecnoTienda.tienda.service.ServiceImp;
 import TecnoTienda.tienda.dao.IItemDao;
 import TecnoTienda.tienda.dao.ISaleDao;
 import TecnoTienda.tienda.dao.IProductDao;
-import TecnoTienda.tienda.dto.CreateSaleRequestDTO;
-import TecnoTienda.tienda.dto.CreateSaleResponseDTO;
+import TecnoTienda.tienda.dto.*;
 import TecnoTienda.tienda.entity.Item;
 import TecnoTienda.tienda.entity.Product;
 import TecnoTienda.tienda.entity.Sale;
 import TecnoTienda.tienda.entity.User;
+import TecnoTienda.tienda.mappers.SaleRowMapper;
 import TecnoTienda.tienda.service.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,8 +33,11 @@ public class SaleServiceImp implements SaleService {
     @Autowired
     IProductDao productDao;
 
+    @Autowired
+    SaleRowMapper saleRowMapper;
+
     @Override
-    public CreateSaleResponseDTO saveSale(CreateSaleRequestDTO requestDTO){
+    public SaleDTO saveSale(CreateSaleRequestDTO requestDTO){
         System.out.println("requestDTO = " + requestDTO);
         User user = userService.findById(requestDTO.getIdUser());
         Sale newSale = new Sale();
@@ -54,41 +57,25 @@ public class SaleServiceImp implements SaleService {
         Integer newSaleId = saleDao.save(newSale).getId();
         Sale sale = saleDao.findById(newSaleId).get();
 
-        CreateSaleResponseDTO createSaleResponseDto = new CreateSaleResponseDTO();
-        createSaleResponseDto.setId(sale.getId()); // id de la venta
-        createSaleResponseDto.setIdUser(sale.getUser().getId());
-        createSaleResponseDto.setAddress(sale.getAddress());
-        createSaleResponseDto.setPhone(sale.getPhone());
-
-        if (sale.getItemList() != null) {
-            for (Item item : sale.getItemList()) {
-                Item i = new Item();
-                i.setId(item.getId());
-                i.setProduct(item.getProduct());
-                i.setAmount(item.getAmount());
-                createSaleResponseDto.getItemList().add(i);
-            }
-        }
-
-        return createSaleResponseDto;
+        return saleRowMapper.saleToSaleDTO(sale);
     }
 
     @Override
-    public CreateSaleRequestDTO saleByUserId(int id){
-        List<Sale> saleByIdUser = saleDao.saleByUserId(id);
-        List<Item> itemList = new ArrayList<>();
-        CreateSaleRequestDTO createSaleRequestDto = new CreateSaleRequestDTO();
-        for(Sale sale : saleByIdUser){
-            itemList.addAll(itemDao.getItemBySaleId(sale.getId()).stream().collect(Collectors.toList()));
-        }
-        for(Item i : itemList){
-            Item item = new Item();
-            Product product = productDao.findById(i.getProduct().getId()).get();
-            item.setId(i.getId());
-            item.setProduct(product);
-            item.setAmount(i.getAmount());
-            createSaleRequestDto.getItemList().add(item);
-        }
-        return createSaleRequestDto;
+    public UserSalesResponseDTO saleByUserId(UserSalesRequestDTO requestDTO){
+
+        int idUser = requestDTO.getIdUser();
+        List<Sale> sales = saleDao.saleByUserId(idUser);
+
+        UserSalesResponseDTO response = new UserSalesResponseDTO();
+        response.setIdUser(idUser);
+
+        // Se recorre la lista de ventas y se crea un SaleDTO por cada venta
+        List<SaleDTO> saleDTOS = sales.stream().map(sale -> {
+            return saleRowMapper.saleToSaleDTO(sale);
+        }).collect(Collectors.toList());
+
+        response.setSaleList(saleDTOS);
+
+        return response;
     }
 }

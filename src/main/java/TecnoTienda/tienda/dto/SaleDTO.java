@@ -9,13 +9,10 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateSaleResponseDTO {
-
-    private int id;
+public class SaleDTO {
+    private Integer id;
     private List<Item> itemList = new ArrayList<>();
-    private int idUser;
-
     private String address;
-
     private String phone;
+
 }
