@@ -29,9 +29,9 @@ public class ProductController {
         try{
            
             ProductDTO listProducts = new ProductDTO();
-            listProducts.setPage(productService.getAllProducts(page).getPageable().getPageNumber());
+            listProducts.setPage(productService.getAllProducts(page).getPageable().getPageNumber()+1);
             listProducts.setProductos(productService.getAllProducts(page).getContent());
-            listProducts.setTotal(productService.getAllProducts(page).getTotalPages());
+            listProducts.setTotal(productService.getAllProducts(page).getTotalPages()-1);
 
            return ResponseEntity.status(HttpStatus.ACCEPTED).body(listProducts);
            
@@ -64,7 +64,8 @@ public class ProductController {
             listProducts.setProductos(productService.findByCategory(category, page).getContent());
             listProducts.setTotal(productService.findByCategory(category, page).getTotalPages());
 
-            return ResponseEntity.status(HttpStatus.FOUND).body(listProducts);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(listProducts);
+
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
