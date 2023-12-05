@@ -1,5 +1,6 @@
 package TecnoTienda.tienda.controller;
 
+import TecnoTienda.tienda.dto.SaleDTO;
 import TecnoTienda.tienda.entity.Item;
 import TecnoTienda.tienda.entity.Product;
 import TecnoTienda.tienda.entity.Sale;
@@ -41,7 +42,6 @@ public class SaleControllerTest {
     public void testSaveSale() {
         // Configuración del servicio simulado
         int userId = 1;
-        List<Item> itemList = new ArrayList<>();
 
         // Crear un producto y un ítem asociado
         Product product = new Product();
@@ -50,7 +50,15 @@ public class SaleControllerTest {
         Item item = new Item();
         item.setProduct(product);
         item.setAmount(1);
-        itemList.add(item);
+
+        List<Item> itemList = Collections.singletonList(item);
+
+        // Crear un SaleDTO
+        SaleDTO saleDto = new SaleDTO();
+        saleDto.setIdUser(userId);
+        saleDto.setAddress("Dirección de prueba");
+        saleDto.setPhone("123456789");
+        saleDto.setItemList(itemList);
 
         // Crear un usuario y configurar el servicio simulado
         User user = new User();
@@ -60,7 +68,7 @@ public class SaleControllerTest {
         when(productService.findById(anyInt())).thenReturn(Optional.of(product));
 
         // Llamada al controlador y verificación de resultados
-        ResponseEntity<?> responseEntity = saleController.saveSale(itemList, userId);
+        ResponseEntity<?> responseEntity = saleController.saveSale(saleDto, userId);
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
 
         // Verificar que los métodos del servicio se hayan llamado según lo esperado
