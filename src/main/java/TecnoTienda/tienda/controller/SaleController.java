@@ -44,6 +44,8 @@ public class SaleController {
                 i.setSale(sale);
                 sale.getItemList().add(i);
             }
+            sale.setAddress(saleDto.getAddress());
+            sale.setPhone(saleDto.getPhone());
             sale.setUser(user);
             saleService.saveSale(sale);
             return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -51,5 +53,9 @@ public class SaleController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
-
-}
+    @Operation(summary = "Endpoint para traer las ventas de un Usuario")
+    @GetMapping("/sale/{id}")
+    public ResponseEntity<SaleDTO> getSaleByUserId(@PathVariable("id") int id){
+        SaleDTO saleDto = saleService.saleByUserId(id);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(saleDto);
+    }

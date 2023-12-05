@@ -28,6 +28,7 @@ public interface IProductDao extends JpaRepository<Product,Integer> {
     @NonNull
     @Query("SELECT p FROM Product p WHERE p.id = :id AND p.status = 'on'")
     Optional<Product> findById(@Param("id") Integer id);
+
     @Override
     @NonNull
     @Query("SELECT p FROM Product p WHERE p.status = 'on'")
