@@ -1,6 +1,5 @@
 package TecnoTienda.tienda.controller;
 
-
 import TecnoTienda.tienda.dto.CreateSaleRequestDTO;
 import TecnoTienda.tienda.dto.CreateSaleResponseDTO;
 import TecnoTienda.tienda.service.SaleService;
@@ -35,8 +34,8 @@ public class SaleController {
 
     @Operation(summary = "Endpoint para traer las ventas de un Usuario")
     @GetMapping("/sale/{id}")
-    public ResponseEntity<CreateSaleRequestDTO> getSaleByUserId(@PathVariable("id") int id) {
-        CreateSaleRequestDTO createSaleRequestDto = saleService.saleByUserId(id);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(createSaleRequestDto);
+    public ResponseEntity<SaleDTO> getSaleByUserId(@PathVariable("id") int id) {
+        SaleDTO saleDto = saleService.saleByUserId(id);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(saleDto);
     }
 }

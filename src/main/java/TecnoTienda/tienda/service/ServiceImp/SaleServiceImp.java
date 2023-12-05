@@ -13,7 +13,6 @@ import TecnoTienda.tienda.entity.User;
 import TecnoTienda.tienda.service.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -74,10 +73,11 @@ public class SaleServiceImp implements SaleService {
     }
 
     @Override
-    public CreateSaleRequestDTO saleByUserId(int id){
+    public SaleDTO saleByUserId(int id){
         List<Sale> saleByIdUser = saleDao.saleByUserId(id);
         List<Item> itemList = new ArrayList<>();
-        CreateSaleRequestDTO createSaleRequestDto = new CreateSaleRequestDTO();
+        SaleDTO saleDto = new SaleDTO();
+
         for(Sale sale : saleByIdUser){
             itemList.addAll(itemDao.getItemBySaleId(sale.getId()).stream().collect(Collectors.toList()));
         }
@@ -86,9 +86,8 @@ public class SaleServiceImp implements SaleService {
             Product product = productDao.findById(i.getProduct().getId()).get();
             item.setId(i.getId());
             item.setProduct(product);
-            item.setAmount(i.getAmount());
-            createSaleRequestDto.getItemList().add(item);
+            saleDto.getItemList().add(item);
         }
-        return createSaleRequestDto;
+        return saleDto;
     }
 }
