@@ -3,6 +3,7 @@ package TecnoTienda.tienda.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,6 +26,7 @@ public class SecurityConfig {
                 .cors(AbstractHttpConfigurer::disable) // Disable CORS protection for now
                 .authorizeHttpRequests(req ->
                         req.requestMatchers("/api/public/**").permitAll() // Permit all requests to /api/public/**
+                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Permit all OPTIONS requests
                                 .requestMatchers("/api/user/**").authenticated() // Permit authenticated requests to /api/user/**
                                 .requestMatchers("/api/admin/**").hasRole("ADMIN") // Permit requests with ADMIN role to /api/admin/**
                                 .anyRequest().permitAll()

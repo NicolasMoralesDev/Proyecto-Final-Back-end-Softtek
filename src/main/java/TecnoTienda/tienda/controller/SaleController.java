@@ -27,13 +27,10 @@ public class SaleController {
 
     @Operation(summary = "Endpoint de acceso Rol Usuario, Guarda una orden ")
     @PostMapping("/sale/save")
-
     public ResponseEntity<?> saveSale(@RequestBody CreateSaleRequestDTO requestDTO) {
-        try {
-            return new ResponseEntity<>(saleService.saveSale(requestDTO), HttpStatus.CREATED);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+        CreateSaleResponseDTO createSaleResponseDTO = saleService.saveSale(requestDTO);
+        System.out.println("createSaleResponseDTO = " + createSaleResponseDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createSaleResponseDTO);
     }
 
     @Operation(summary = "Endpoint para traer las ventas de un Usuario")

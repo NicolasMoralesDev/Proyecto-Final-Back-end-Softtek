@@ -32,9 +32,10 @@ public class SaleServiceImp implements SaleService {
 
     @Autowired
     IProductDao productDao;
+
     @Override
     public CreateSaleResponseDTO saveSale(CreateSaleRequestDTO requestDTO){
-
+        System.out.println("requestDTO = " + requestDTO);
         User user = userService.findById(requestDTO.getIdUser());
         Sale newSale = new Sale();
 
@@ -62,7 +63,6 @@ public class SaleServiceImp implements SaleService {
         if (sale.getItemList() != null) {
             for (Item item : sale.getItemList()) {
                 Item i = new Item();
-                i.getSale().setId(sale.getId());
                 i.setId(item.getId());
                 i.setProduct(item.getProduct());
                 i.setAmount(item.getAmount());
