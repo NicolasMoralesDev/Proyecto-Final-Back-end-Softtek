@@ -62,7 +62,7 @@ public class ProductController {
     public ResponseEntity<List<Product>> getProductByCategory(@PathVariable("category") String category){
         try{
             List<Product> products = productService.findByCategory(category);
-            return ResponseEntity.status(HttpStatus.FOUND).body(products);
+            return ResponseEntity.status(HttpStatus.OK).body(products);
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.notFound().build();
