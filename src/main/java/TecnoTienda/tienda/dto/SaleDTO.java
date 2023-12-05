@@ -13,4 +13,8 @@ public class SaleDTO {
 
     private List<Item> itemList = new ArrayList<>();
     private int idUser;
+
+    private String address;
+
+    private String phone;
 }
