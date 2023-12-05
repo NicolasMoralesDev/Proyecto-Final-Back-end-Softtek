@@ -1,10 +1,7 @@
 package TecnoTienda.tienda.controller;
 
-
-import TecnoTienda.tienda.dto.SaleDTO;
-import TecnoTienda.tienda.entity.Item;
-import TecnoTienda.tienda.entity.Sale;
-import TecnoTienda.tienda.entity.User;
+import TecnoTienda.tienda.dto.CreateSaleRequestDTO;
+import TecnoTienda.tienda.dto.CreateSaleResponseDTO;
 import TecnoTienda.tienda.service.SaleService;
 import TecnoTienda.tienda.service.ProductService;
 import TecnoTienda.tienda.service.UserService;
@@ -13,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
@@ -31,26 +26,10 @@ public class SaleController {
 
     @Operation(summary = "Endpoint de acceso Rol Usuario, Guarda una orden ")
     @PostMapping("/sale/save")
-
-    public ResponseEntity<?> saveSale(@RequestBody SaleDTO saleDto) {
-        try {
-            User user = userService.findById(saleDto.getIdUser());
-            Sale sale = new Sale();
-            for (Item item : saleDto.getItemList()) {
-                Item i = new Item();
-                i.setProduct(productService.findById(item.getProduct().getId()).get());
-                i.setAmount(item.getAmount());
-                i.setSale(sale);
-                sale.getItemList().add(i);
-            }
-            sale.setAddress(saleDto.getAddress());
-            sale.setPhone(saleDto.getPhone());
-            sale.setUser(user);
-            saleService.saveSale(sale);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+    public ResponseEntity<?> saveSale(@RequestBody CreateSaleRequestDTO requestDTO) {
+        CreateSaleResponseDTO createSaleResponseDTO = saleService.saveSale(requestDTO);
+        System.out.println("createSaleResponseDTO = " + createSaleResponseDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createSaleResponseDTO);
     }
 
     @Operation(summary = "Endpoint para traer las ventas de un Usuario")
