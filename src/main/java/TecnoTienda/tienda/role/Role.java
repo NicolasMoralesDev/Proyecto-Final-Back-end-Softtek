@@ -1,4 +1,4 @@
-package TecnoTienda.tienda.entity;
+package TecnoTienda.tienda.role;
 
 import org.springframework.security.core.GrantedAuthority;
 

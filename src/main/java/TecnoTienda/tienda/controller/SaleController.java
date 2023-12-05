@@ -1,9 +1,8 @@
 package TecnoTienda.tienda.controller;
 
 
-import TecnoTienda.tienda.entity.Item;
-import TecnoTienda.tienda.entity.Sale;
-import TecnoTienda.tienda.entity.User;
+import TecnoTienda.tienda.dto.CreateSaleRequestDTO;
+import TecnoTienda.tienda.dto.CreateSaleResponseDTO;
 import TecnoTienda.tienda.service.SaleService;
 import TecnoTienda.tienda.service.ProductService;
 import TecnoTienda.tienda.service.UserService;
@@ -12,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
@@ -27,25 +24,22 @@ public class SaleController {
     @Autowired
     UserService userService;
 
+
     @Operation(summary = "Endpoint de acceso Rol Usuario, Guarda una orden ")
     @PostMapping("/sale/save")
-    public ResponseEntity<?> saveSale(@RequestBody List<Item> itemList,
-                                      @RequestBody int id){
+
+    public ResponseEntity<?> saveSale(@RequestBody CreateSaleRequestDTO requestDTO) {
         try {
-            User user = userService.findById(id);
-            Sale sale = new Sale();
-            for (Item item : itemList) {
-                Item i = new Item();
-                i.setProduct(productService.findById(item.getProduct().getId()).get());
-                i.setAmount(item.getAmount());
-                i.setSale(sale);
-                sale.getItemList().add(i);
-            }
-            sale.setUser(user);
-            saleService.saveSale(sale);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        }catch (Exception e){
+            return new ResponseEntity<>(saleService.saveSale(requestDTO), HttpStatus.CREATED);
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+    }
+
+    @Operation(summary = "Endpoint para traer las ventas de un Usuario")
+    @GetMapping("/sale/{id}")
+    public ResponseEntity<CreateSaleRequestDTO> getSaleByUserId(@PathVariable("id") int id) {
+        CreateSaleRequestDTO createSaleRequestDto = saleService.saleByUserId(id);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(createSaleRequestDto);
     }
 }

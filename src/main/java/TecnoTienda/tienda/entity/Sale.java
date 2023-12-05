@@ -29,6 +29,11 @@ public class Sale {
 
     private LocalDate date = LocalDate.now();
 
+    private String address;
+
+    private String phone;
+
+
     @ManyToOne
     private User user;
 }

@@ -20,9 +20,7 @@ public class ProductController {
     
     @Autowired
     ProductService productService;
-    
-    @Autowired
-    IProductDao productDao;
+
 
     // ----   METODOS PUBLICOS
     @Operation(summary = "Endpoint publico, Traer Todos los Productos")
@@ -31,11 +29,11 @@ public class ProductController {
         try{
            
             ProductDTO listProducts = new ProductDTO();
-            listProducts.setPage(productService.getAllProducts(page).getPageable().getPageNumber());
+            listProducts.setPage(productService.getAllProducts(page).getPageable().getPageNumber()+1);
             listProducts.setProductos(productService.getAllProducts(page).getContent());
-            listProducts.setTotal(productService.getAllProducts(page).getTotalPages());
-            
-           return new ResponseEntity<>(listProducts, HttpStatus.ACCEPTED);
+            listProducts.setTotal(productService.getAllProducts(page).getTotalPages()-1);
+
+           return ResponseEntity.status(HttpStatus.ACCEPTED).body(listProducts);
            
         }catch (Exception e){
             
@@ -53,19 +51,24 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.FOUND).body(product);
         }catch (Exception e){
             e.printStackTrace();
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
     
     @Operation(summary = "Endpoint de acceso Rol publico, Busca Productos por id y los filtra por categoria")
     @GetMapping("/public/products/categories/{category}")
-    public ResponseEntity<List<Product>> getProductByCategory(@PathVariable("category") String category){
+    public ResponseEntity<?> getProductByCategory(@PathVariable("category") String category, @RequestParam int page){
         try{
-            List<Product> products = productService.findByCategory(category);
-            return ResponseEntity.status(HttpStatus.OK).body(products);
+            ProductDTO listProducts = new ProductDTO();
+            listProducts.setPage(productService.findByCategory(category, page).getPageable().getPageNumber());
+            listProducts.setProductos(productService.findByCategory(category, page).getContent());
+            listProducts.setTotal(productService.findByCategory(category, page).getTotalPages());
+
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(listProducts);
+
         }catch (Exception e){
             e.printStackTrace();
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
@@ -77,7 +80,7 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.OK).build();
         }catch (Exception e){
             e.printStackTrace();
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
@@ -89,7 +92,7 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.OK).build();
         }catch (Exception e){
             e.printStackTrace();
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
@@ -101,7 +104,7 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.CREATED).body(productSaved);
         }catch (Exception e){
             e.printStackTrace();
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
@@ -113,7 +116,7 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.CREATED).body("Productos agregados correctamente");
         }catch (Exception e){
             e.printStackTrace();
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 

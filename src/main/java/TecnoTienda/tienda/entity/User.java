@@ -1,6 +1,7 @@
 package TecnoTienda.tienda.entity;
 
 
+import TecnoTienda.tienda.role.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -32,8 +33,7 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany
-    private List<Sale> sales;
+
 
     /**
      * Retorna la lista de roles del usuario. Esta lista es utilizada por Spring Security para verificar

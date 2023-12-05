@@ -1,8 +1,8 @@
 package TecnoTienda.tienda.service;
 
-import TecnoTienda.tienda.entity.AuthenticationResponse;
-import TecnoTienda.tienda.entity.LoginRequest;
-import TecnoTienda.tienda.entity.RegisterRequest;
+import TecnoTienda.tienda.dto.AuthenticationResponseDTO;
+import TecnoTienda.tienda.dto.LoginRequestDTO;
+import TecnoTienda.tienda.dto.RegisterRequestDTO;
 
 public interface AuthService {
 
@@ -12,7 +12,7 @@ public interface AuthService {
      * @param request LoginRequest, contains the user data.
      * @return AuthenticationResponse, contains the token or an error.
      */
-    AuthenticationResponse login(LoginRequest request);
+    AuthenticationResponseDTO login(LoginRequestDTO request);
 
     /**
      * Method for register a new user in the system. This method validate the user data and generate a token.
@@ -20,5 +20,5 @@ public interface AuthService {
      * @param request RegisterRequest, contains the user data.
      * @return AuthenticationResponse, contains the token or an error.
      */
-    AuthenticationResponse register(RegisterRequest request);
+    AuthenticationResponseDTO register(RegisterRequestDTO request);
 }

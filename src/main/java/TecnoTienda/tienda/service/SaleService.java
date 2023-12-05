@@ -1,8 +1,12 @@
 package TecnoTienda.tienda.service;
 
+import TecnoTienda.tienda.dto.CreateSaleRequestDTO;
+import TecnoTienda.tienda.dto.CreateSaleResponseDTO;
 import TecnoTienda.tienda.entity.Sale;
 
 public interface SaleService {
 
-    public Sale saveSale(Sale sale);
+    CreateSaleResponseDTO saveSale(CreateSaleRequestDTO requestDTO);
+
+    CreateSaleRequestDTO saleByUserId(int id);
 }
