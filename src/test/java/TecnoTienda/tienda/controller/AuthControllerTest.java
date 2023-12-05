@@ -1,8 +1,8 @@
 package TecnoTienda.tienda.controller;
 
-import TecnoTienda.tienda.entity.AuthenticationResponse;
-import TecnoTienda.tienda.entity.LoginRequest;
-import TecnoTienda.tienda.entity.RegisterRequest;
+import TecnoTienda.tienda.dto.AuthenticationResponseDTO;
+import TecnoTienda.tienda.dto.LoginRequestDTO;
+import TecnoTienda.tienda.dto.RegisterRequestDTO;
 import TecnoTienda.tienda.service.AuthService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,14 +29,14 @@ public class AuthControllerTest {
     @Test
     public void testRegister(){
         // Simula el comportamiento del servicio de autenticación al registrarse
-        RegisterRequest registerRequest = new RegisterRequest(/* ... */);
-        AuthenticationResponse expectedResponse = AuthenticationResponse.builder()
+        RegisterRequestDTO registerRequest = new RegisterRequestDTO(/* ... */);
+        AuthenticationResponseDTO expectedResponse = AuthenticationResponseDTO.builder()
                 .token("your-token-value")
                 .build();
         when(authService.register(registerRequest)).thenReturn(expectedResponse);
 
         // Llama al método del controlador y verifica la respuesta
-        ResponseEntity<AuthenticationResponse> responseEntity = authController.register(registerRequest);
+        ResponseEntity<AuthenticationResponseDTO> responseEntity = authController.register(registerRequest);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(expectedResponse, responseEntity.getBody());
 
@@ -47,14 +47,14 @@ public class AuthControllerTest {
     @Test
     public void testLogin() {
         // Simula el comportamiento del servicio de autenticación al iniciar sesión
-        LoginRequest loginRequest = new LoginRequest(/* ... */);
-        AuthenticationResponse expectedResponse = AuthenticationResponse.builder()
+        LoginRequestDTO loginRequest = new LoginRequestDTO(/* ... */);
+        AuthenticationResponseDTO expectedResponse = AuthenticationResponseDTO.builder()
                 .token("your-token-value")
                 .build();
         when(authService.login(loginRequest)).thenReturn(expectedResponse);
 
         // Llama al método del controlador y verifica la respuesta
-        ResponseEntity<AuthenticationResponse> responseEntity = authController.login(loginRequest);
+        ResponseEntity<AuthenticationResponseDTO> responseEntity = authController.login(loginRequest);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(expectedResponse, responseEntity.getBody());
 
