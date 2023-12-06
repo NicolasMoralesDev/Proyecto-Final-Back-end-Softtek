@@ -2,7 +2,7 @@ package TecnoTienda.tienda.service.ServiceImp;
 
 
 import TecnoTienda.tienda.dao.IUserDao;
-import TecnoTienda.tienda.entity.ChangePasswordRequest;
+import TecnoTienda.tienda.dto.ChangePasswordRequestDTO;
 import TecnoTienda.tienda.entity.User;
 import TecnoTienda.tienda.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class UserServiceImp  implements UserService{
      * @param request the request with the userId, the current password and the new password.
      */
     @Override
-    public void changePassword(ChangePasswordRequest request){
+    public void changePassword(ChangePasswordRequestDTO request){
         User user = userDao.findById(request.getUserId()).orElseThrow(() -> new UsernameNotFoundException("User not found in database"));
         if(!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())){
             throw new IllegalStateException("Wrong password");

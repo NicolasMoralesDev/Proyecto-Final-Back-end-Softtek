@@ -1,7 +1,6 @@
 package TecnoTienda.tienda.controller;
 
-import TecnoTienda.tienda.entity.ChangePasswordRequest;
-import TecnoTienda.tienda.entity.Product;
+import TecnoTienda.tienda.dto.ChangePasswordRequestDTO;
 import TecnoTienda.tienda.entity.User;
 import TecnoTienda.tienda.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,7 +47,7 @@ public class UserController {
 
     @Operation (summary = "Endpoint privado, cambia la contraseña de un usuario")
     @PutMapping("/user/password")
-    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest request){
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequestDTO request){
         try {
             userService.changePassword(request);
             return ResponseEntity.ok().build();

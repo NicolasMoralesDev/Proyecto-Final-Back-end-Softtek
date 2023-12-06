@@ -1,5 +1,6 @@
 package TecnoTienda.tienda.mappers;
 
+import TecnoTienda.tienda.dao.IProductDao;
 import TecnoTienda.tienda.dto.CreateSaleRequestDTO;
 import TecnoTienda.tienda.dto.SaleDTO;
 import TecnoTienda.tienda.entity.Item;
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 public class SaleRowMapper {
 
     @Autowired
-    ProductService productService;
+    IProductDao productDao;
 
     public SaleRowMapper() {
     }
@@ -46,7 +47,7 @@ public class SaleRowMapper {
         for (Item item : saleDto.getItemList()) {
                 Item i = new Item();
                 // TODO: Product mapper?
-                i.setProduct(productService.findById(item.getProduct().getId()).get());
+                i.setProduct(productDao.findById(item.getProduct().getId()).get());
                 i.setAmount(item.getAmount());
                 i.setSale(sale);
                 sale.getItemList().add(i);

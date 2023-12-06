@@ -1,34 +1,19 @@
-
 package TecnoTienda.tienda.dto;
 
-import TecnoTienda.tienda.entity.Product;
-import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import org.springframework.stereotype.Component;
 
-/**
- *
- * @author Nico Morales
- */
-@Getter
-@Setter
+@Data
 public class ProductDTO {
-    
-    private List <Product> productos;
-    private int page;
-    private int total;
+    private String name;
 
-    public ProductDTO() {
-    }
+    private String description;
 
-    public ProductDTO(List<Product> productos, int page, int total) {
-        this.productos = productos;
-        this.page = page;
-        this.total = total;
-    }
+    private double price;
 
+    private String category;
 
-    
-    
+    private String brand;
+
+    private String imageUrl;
 }
