@@ -21,6 +21,7 @@ public class SaleRowMapper {
             for (Item item : sale.getItemList()) {
                 Item i = new Item();
                 i.setId(item.getId());
+                // TODO: Product mapper?
                 i.setProduct(item.getProduct());
                 i.setAmount(item.getAmount());
                 saleDTO.getItemList().add(i);
