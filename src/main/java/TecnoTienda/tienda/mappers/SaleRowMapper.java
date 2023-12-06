@@ -16,7 +16,7 @@ public class SaleRowMapper {
         saleDTO.setId(sale.getId());
         saleDTO.setAddress(sale.getAddress());
         saleDTO.setPhone(sale.getPhone());
-
+        saleDTO.setDate(sale.getDate());
         if (sale.getItemList() != null) {
             for (Item item : sale.getItemList()) {
                 Item i = new Item();
