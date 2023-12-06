@@ -34,7 +34,7 @@ public class SaleController {
     }
 
     @Operation(summary = "Endpoint para traer las ventas de un Usuario")
-    @GetMapping("/sale")
+    @PostMapping("/sale/all")
     public ResponseEntity<?> getSaleByUser(@RequestBody UserSalesRequestDTO requestDTO) {
         UserSalesResponseDTO response = saleService.saleByUserId(requestDTO);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);

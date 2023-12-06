@@ -14,5 +14,4 @@ public class SaleDTO {
     private List<Item> itemList = new ArrayList<>();
     private String address;
     private String phone;
-
 }
