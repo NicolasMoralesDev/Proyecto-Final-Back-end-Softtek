@@ -57,7 +57,8 @@ public class ProductController {
     
     @Operation(summary = "Endpoint de acceso Rol publico, Busca Productos por id y los filtra por categoria")
     @GetMapping("/public/products/categories/{category}")
-    public ResponseEntity<?> getProductByCategory(@PathVariable("category") String category, @RequestParam int page){
+    public ResponseEntity<?> getProductByCategory(@PathVariable("category") String category,
+                                                  @RequestParam int page){
         try{
             ProductDTO listProducts = new ProductDTO();
             listProducts.setPage(productService.findByCategory(category, page).getPageable().getPageNumber());
