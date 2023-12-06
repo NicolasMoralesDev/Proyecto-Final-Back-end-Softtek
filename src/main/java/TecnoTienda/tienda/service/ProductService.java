@@ -23,5 +23,5 @@ public interface ProductService {
 
     public void setActiveProductById(int id);
 
-    public void addBulkProducts(List<Product> products);
+    public void addBulkProducts(List<ProductDTO> products);
 }

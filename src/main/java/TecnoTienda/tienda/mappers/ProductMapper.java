@@ -40,6 +40,13 @@ public class ProductMapper {
         }
         return listProductDto;
     }
+    public List<Product> productDtoListToProductList(List<ProductDTO> listProductDto){
+        List<Product> listProduct = new ArrayList<>();
+        for(ProductDTO p : listProductDto){
+            listProduct.add(this.productDtoToProduct(p));
+        }
+        return listProduct;
+    }
 
 
 }

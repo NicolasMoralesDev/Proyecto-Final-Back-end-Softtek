@@ -31,8 +31,8 @@ public class ProductServiceImp implements ProductService {
             return productMapper.productToProductDto(productDao.save(product));
         }catch (Exception e){
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
-    public void addBulkProducts(List<Product> products){
-        productDao.saveAll(products);
+    public void addBulkProducts(List<ProductDTO> productsDto){
+        productDao.saveAll(productMapper.productDtoListToProductList(productsDto));
     }
 }
