@@ -11,9 +11,9 @@ import java.util.List;
 @NoArgsConstructor
 public class CreateSaleRequestDTO {
 
-    private List<Item> itemList = new ArrayList<>();
-
     private int idUser;
+
+    private List<Item> itemList = new ArrayList<>();
 
     private String address;
 

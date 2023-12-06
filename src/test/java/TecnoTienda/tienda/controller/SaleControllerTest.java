@@ -1,5 +1,6 @@
 package TecnoTienda.tienda.controller;
 
+import TecnoTienda.tienda.dto.CreateSaleRequestDTO;
 import TecnoTienda.tienda.dto.SaleDTO;
 import TecnoTienda.tienda.entity.Item;
 import TecnoTienda.tienda.entity.Product;
@@ -40,36 +41,28 @@ public class SaleControllerTest {
 
     @Test
     public void testSaveSale() {
+
+
+        // Inicio creación requestDTO
         // Configuración del servicio simulado
-        SaleDTO saleDto = new SaleDTO();
-        int userId = 1;
-        List<Item> itemList = new ArrayList<>();
+        CreateSaleRequestDTO requestDTO = new CreateSaleRequestDTO();
 
-        // Crear un producto y un ítem asociado
-        Product product = new Product();
-        product.setId(1);
+        SaleDTO expectedSaleDTO = new SaleDTO();
 
-        Item item = new Item();
-        item.setProduct(product);
-        item.setAmount(1);
-        itemList.add(item);
+        // Configuración del servicio simulado
+        when(saleService.saveSale(requestDTO)).thenReturn(expectedSaleDTO);
 
-        saleDto.setIdUser(userId);
-        saleDto.getItemList().add(item);
-        // Crear un usuario y configurar el servicio simulado
-        User user = new User();
-        when(userService.findById(userId)).thenReturn(user);
+        // Ejecución del método a probar
+        ResponseEntity<?> responseEntity = saleController.saveSale(requestDTO);
 
-        // Configurar el servicio simulado para devolver el producto cuando se llame al método findById
-        when(productService.findById(anyInt())).thenReturn(Optional.of(product));
+        // Verificación de invocaciones
+        verify(saleService, times(1)).saveSale(requestDTO);
 
-        // Llamada al controlador y verificación de resultados
-        ResponseEntity<?> responseEntity = saleController.saveSale(saleDto);
+        // Verificación de resultados
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+        assertEquals(expectedSaleDTO, responseEntity.getBody());
 
-        // Verificar que los métodos del servicio se hayan llamado según lo esperado
-        verify(userService, times(1)).findById(userId);
-        verify(productService, times(itemList.size())).findById(anyInt());
-        verify(saleService, times(1)).saveSale(any(Sale.class));
+
+
     }
 }

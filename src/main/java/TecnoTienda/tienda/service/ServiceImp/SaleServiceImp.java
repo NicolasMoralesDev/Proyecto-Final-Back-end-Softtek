@@ -38,8 +38,10 @@ public class SaleServiceImp implements SaleService {
 
     @Override
     public SaleDTO saveSale(CreateSaleRequestDTO requestDTO){
-        System.out.println("requestDTO = " + requestDTO);
+
         User user = userService.findById(requestDTO.getIdUser());
+
+        // todo: row mapper
         Sale newSale = new Sale();
 
         for (Item item : requestDTO.getItemList()) {
@@ -55,6 +57,7 @@ public class SaleServiceImp implements SaleService {
         newSale.setUser(user);
 
         Integer newSaleId = saleDao.save(newSale).getId();
+
         Sale sale = saleDao.findById(newSaleId).get();
 
         return saleRowMapper.saleToSaleDTO(sale);
