@@ -62,6 +62,15 @@ public class ProductController {
         }
     }
 
+    @Operation(summary = "Endpoint para agregar stock a un producto")
+    public ResponseEntity<?> setStockById(@RequestBody int id, @PathVariable("stock") int stock){
+        try{
+            productService.setStockById(id,stock);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
     @Operation(summary = "Endpoint de acceso Rol publico, Busca Productos por id y los filtra por categoria")
     @GetMapping("/public/products/categories/{category}")
     public ResponseEntity<?> getProductByCategory(@PathVariable("category") String category,
