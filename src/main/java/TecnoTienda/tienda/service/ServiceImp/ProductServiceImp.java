@@ -36,14 +36,32 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
-    public Page <Product> findByCategory(String category, int page){
+    public ProductPaginationDTO findByCategory(String category, int page){
+        
         Pageable pageable = PageRequest.of(page,10);
-        return productDao.findByCategory(category, pageable);
+        
+        //       crea el listado de productos paginable 
+        ProductPaginationDTO listProducts = new ProductPaginationDTO();
+        
+//        se setean los datos devueltos por la bd y se modela un dto
+        listProducts.setPage(page);
+        listProducts.setProductos(productMapper.productListToProductDtoList(productDao.findByCategory(category, pageable).getContent()));
+        listProducts.setTotal(productDao.findByCategory(category, pageable).getTotalPages());
+        return listProducts;
     }
     @Override
-    public Page <Product> getAllProducts(int page){
+    public ProductPaginationDTO getAllProducts(int page){
+        
+//        objeto pagina
         Pageable pageable = PageRequest.of(page,10);
-        return productDao.findAll(pageable);
+//       crea el listado de productos paginable 
+        ProductPaginationDTO listProducts = new ProductPaginationDTO();
+        
+//        se setean los datos devueltos por la bd y se modela un dto
+        listProducts.setPage(page);
+        listProducts.setProductos(productMapper.productListToProductDtoList(productDao.findAll(pageable).getContent() ));
+        listProducts.setTotal(productDao.findAll(pageable).getTotalPages());
+        return listProducts;
     }
 
     @Override
