@@ -30,8 +30,11 @@ public interface IProductDao extends JpaRepository<Product, Integer> {
 
     @Override
     @NonNull
-    @Query("SELECT p FROM Product p WHERE p.status = 'on'")
+    @Query("SELECT p FROM Product p WHERE p.status = 'on' AND p.stock > 0")
     List<Product> findAll();
+
+    @Query("UPDATE Product p SET p.stock = :stock WHERE p.id = :id")
+    void setStockById(@Param("id") int id, @Param("stock") int stock);
 
     @Transactional
     @Modifying

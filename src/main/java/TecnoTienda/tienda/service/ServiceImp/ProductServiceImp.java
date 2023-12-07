@@ -65,7 +65,10 @@ public class ProductServiceImp implements ProductService {
         listProducts.setTotal(productDao.findAll(pageable).getTotalPages());
         return listProducts;
     }
-
+    @Override
+    public void setStockById(int id, int stock){
+        productDao.setStockById(id,stock);
+    }
     @Override
     public ProductDTO findById(int id) {
         return productMapper.productToProductDto(productDao.findById(id).get());
