@@ -1,9 +1,10 @@
 package TecnoTienda.tienda.controller;
 
 
-import TecnoTienda.tienda.dao.IProductDao;
 import TecnoTienda.tienda.dto.ProductDTO;
+import TecnoTienda.tienda.dto.ProductPaginationDTO;
 import TecnoTienda.tienda.entity.Product;
+import TecnoTienda.tienda.mappers.ProductMapper;
 import TecnoTienda.tienda.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,52 +21,49 @@ public class ProductController {
     
     @Autowired
     ProductService productService;
-
+    @Autowired
+    ProductMapper productMapper;
 
     // ----   METODOS PUBLICOS
-    @Operation(summary = "Endpoint publico, Traer Todos los Productos")
-    @GetMapping("/public/products")
-    public ResponseEntity<?> getAllProduct(@RequestParam int page){
-        try{
-           
-            ProductDTO listProducts = new ProductDTO();
-            listProducts.setPage(productService.getAllProducts(page).getPageable().getPageNumber()+1);
-            listProducts.setProductos(productService.getAllProducts(page).getContent());
-            listProducts.setTotal(productService.getAllProducts(page).getTotalPages()-1);
 
-           return ResponseEntity.status(HttpStatus.ACCEPTED).body(listProducts);
-           
-        }catch (Exception e){
-            
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-            
-        }
-    }
 
     @Operation(summary = "Endpoint de acceso Rol publico, Traer producto por Id")
     @GetMapping("/public/products/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable("id") int id){
+    public ResponseEntity<ProductDTO> getProductById(@PathVariable("id") int id){
         try{
-            Product product = productService.findById(id).get();
-            return ResponseEntity.status(HttpStatus.FOUND).body(product);
+            return ResponseEntity.status(HttpStatus.FOUND).body(productService.findById(id));
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
-    
-    @Operation(summary = "Endpoint de acceso Rol publico, Busca Productos por id y los filtra por categoria")
-    @GetMapping("/public/products/categories/{category}")
-    public ResponseEntity<?> getProductByCategory(@PathVariable("category") String category, @RequestParam int page){
+    @Operation(summary = "Endpoint publico, Traer Todos los Productos")
+    @GetMapping("/public/products")
+    public ResponseEntity<?> getAllProduct(@RequestParam int page){
         try{
-            ProductDTO listProducts = new ProductDTO();
-            listProducts.setPage(productService.findByCategory(category, page).getPageable().getPageNumber());
-            listProducts.setProductos(productService.findByCategory(category, page).getContent());
-            listProducts.setTotal(productService.findByCategory(category, page).getTotalPages());
+            ProductPaginationDTO listProducts = new ProductPaginationDTO();
+            listProducts.setPage(productService.getAllProducts(page).getPageable().getPageNumber()+1);
+            listProducts.setProductos(productMapper.productListToProductDtoList(productService.getAllProducts(page).getContent()));
+            listProducts.setTotal(productService.getAllProducts(page).getTotalPages()-1);
 
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(listProducts);
+        }catch (Exception e){
 
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
+        }
+    }
+    @Operation(summary = "Endpoint de acceso Rol publico, Busca Productos por id y los filtra por categoria")
+    @GetMapping("/public/products/categories/{category}")
+    public ResponseEntity<?> getProductByCategory(@PathVariable("category") String category,
+                                                  @RequestParam int page){
+        try{
+            ProductPaginationDTO listProducts = new ProductPaginationDTO();
+            listProducts.setPage(productService.findByCategory(category, page).getPageable().getPageNumber());
+            listProducts.setProductos(productMapper.productListToProductDtoList(productService.findByCategory(category, page).getContent()));
+            listProducts.setTotal(productService.findByCategory(category, page).getTotalPages());
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(listProducts);
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -98,10 +96,9 @@ public class ProductController {
 
     @Operation(summary = "Endpoint solo accesible con rol de Admin, guardar un producto en la base de datos")
     @PostMapping("/admin/products")
-    public ResponseEntity<Product> addProduct(@RequestBody Product product){
+    public ResponseEntity<ProductDTO> addProduct(@RequestBody ProductDTO productDto){
         try{
-            Product productSaved = productService.addProduct(product);
-            return ResponseEntity.status(HttpStatus.CREATED).body(productSaved);
+            return ResponseEntity.status(HttpStatus.CREATED).body(productService.addProduct(productDto));
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -110,9 +107,9 @@ public class ProductController {
 
     @Operation(summary = "Endpoint solo accesible con rol de Admin, Agrega un bulk de productos a la base de datos")
     @PostMapping("/admin/products/bulk")
-    public ResponseEntity<?> addBulkProduct(@RequestBody List<Product> products){
+    public ResponseEntity<?> addBulkProduct(@RequestBody List<ProductDTO> productsDto){
         try{
-            productService.addBulkProducts(products);
+            productService.addBulkProducts(productsDto);
             return ResponseEntity.status(HttpStatus.CREATED).body("Productos agregados correctamente");
         }catch (Exception e){
             e.printStackTrace();

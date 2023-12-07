@@ -11,6 +11,7 @@ import TecnoTienda.tienda.entity.Sale;
 import TecnoTienda.tienda.entity.User;
 import TecnoTienda.tienda.mappers.SaleRowMapper;
 import TecnoTienda.tienda.service.SaleService;
+import TecnoTienda.tienda.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,42 +26,20 @@ public class SaleServiceImp implements SaleService {
     ISaleDao saleDao;
 
     @Autowired
-    UserServiceImp userService;
-
-    @Autowired
-    IItemDao itemDao;
-
-    @Autowired
-    IProductDao productDao;
+    UserService userService;
 
     @Autowired
     SaleRowMapper saleRowMapper;
 
     @Override
     public SaleDTO saveSale(CreateSaleRequestDTO requestDTO){
-
+        // pasar de DTO a ENTITY y buscar en la base de datos
         User user = userService.findById(requestDTO.getIdUser());
 
-        // todo: row mapper
-        Sale newSale = new Sale();
-
-        for (Item item : requestDTO.getItemList()) {
-            Item i = new Item();
-            i.setProduct(productDao.findById(item.getProduct().getId()).get());
-            i.setAmount(item.getAmount());
-            i.setSale(newSale);
-            newSale.getItemList().add(i);
-        }
-
-        newSale.setAddress(requestDTO.getAddress());
-        newSale.setPhone(requestDTO.getPhone());
+        Sale newSale = saleRowMapper.saleRequestDtoToSale(requestDTO);
         newSale.setUser(user);
 
-        Integer newSaleId = saleDao.save(newSale).getId();
-
-        Sale sale = saleDao.findById(newSaleId).get();
-
-        return saleRowMapper.saleToSaleDTO(sale);
+        return saleRowMapper.saleToSaleDTO(saleDao.save(newSale));
     }
 
     @Override
@@ -73,12 +52,10 @@ public class SaleServiceImp implements SaleService {
         response.setIdUser(idUser);
 
         // Se recorre la lista de ventas y se crea un SaleDTO por cada venta
-        List<SaleDTO> saleDTOS = sales.stream().map(sale -> {
-            return saleRowMapper.saleToSaleDTO(sale);
-        }).collect(Collectors.toList());
-
+        List<SaleDTO> saleDTOS = sales.stream()
+                                      .map(sale -> saleRowMapper.saleToSaleDTO(sale))
+                                      .collect(Collectors.toList());
         response.setSaleList(saleDTOS);
-
         return response;
     }
 }

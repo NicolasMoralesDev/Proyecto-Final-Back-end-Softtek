@@ -2,37 +2,41 @@ package TecnoTienda.tienda.service.ServiceImp;
 
 import TecnoTienda.tienda.dao.IProductDao;
 import TecnoTienda.tienda.dto.ProductDTO;
+import TecnoTienda.tienda.dto.ProductPaginationDTO;
 import TecnoTienda.tienda.entity.Product;
+import TecnoTienda.tienda.mappers.ProductMapper;
 import TecnoTienda.tienda.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import javax.swing.text.html.Option;
+
 @Service
 public class ProductServiceImp implements ProductService {
 
     @Autowired
     IProductDao productDao;
+    @Autowired
+    ProductMapper productMapper;
     @Override
-    public Product addProduct(Product product) {
+    public ProductDTO addProduct(ProductDTO productDto) {
         try {
-            return productDao.save(product);
+            Product product = productMapper.productDtoToProduct(productDto);
+            return productMapper.productToProductDto(productDao.save(product));
         }catch (Exception e){
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     @Override
-    public Page<Product> findByCategory(String category, int page){
-        
+    public Page <Product> findByCategory(String category, int page){
         Pageable pageable = PageRequest.of(page,10);
         return productDao.findByCategory(category, pageable);
     }
@@ -43,8 +47,8 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
-    public Optional<Product> findById(int id){
-        return productDao.findById(id);
+    public ProductDTO findById(int id){
+        return  productMapper.productToProductDto(productDao.findById(id).get());
     }
 
     @Override
@@ -58,7 +62,7 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
-    public void addBulkProducts(List<Product> products){
-        productDao.saveAll(products);
+    public void addBulkProducts(List<ProductDTO> productsDto){
+        productDao.saveAll(productMapper.productDtoListToProductList(productsDto));
     }
 }
