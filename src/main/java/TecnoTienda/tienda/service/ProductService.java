@@ -14,6 +14,8 @@ public interface ProductService {
     public ProductDTO addProduct(ProductDTO productDto);
 
     public ProductPaginationDTO getAllProducts(int page);
+    
+    public ProductPaginationDTO getProductByQuery(String q, int page);
 
     public ProductDTO findById(int id);
 
