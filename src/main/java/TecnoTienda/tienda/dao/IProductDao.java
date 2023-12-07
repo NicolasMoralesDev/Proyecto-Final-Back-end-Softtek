@@ -17,15 +17,15 @@ import org.springframework.data.domain.Pageable;
 @Repository
 public interface IProductDao extends JpaRepository<Product, Integer> {
 
-    @Query("SELECT p FROM Product  p WHERE p.category = :category AND p.status = 'on'")
+    @Query("SELECT p FROM Product  p WHERE p.category = :category AND p.status = 'on' AND p.stock > 0")
     Page<Product> findByCategory(@Param("category") String category, Pageable pageable);
 
-    @Query("SELECT p FROM Product p WHERE p.name LIKE %:search% AND p.status = 'on'")
+    @Query("SELECT p FROM Product p WHERE p.name LIKE %:search% AND p.status = 'on' AND p.stock > 0")
     Page<Product> findProductsBySearchQuery(@Param("search") String search, Pageable pageable);
 
     @Override
     @NonNull
-    @Query("SELECT p FROM Product p WHERE p.id = :id AND p.status = 'on'")
+    @Query("SELECT p FROM Product p WHERE p.id = :id AND p.status = 'on' AND p.stock > 0")
     Optional<Product> findById(@Param("id") @NonNull Integer id);
 
     @Override

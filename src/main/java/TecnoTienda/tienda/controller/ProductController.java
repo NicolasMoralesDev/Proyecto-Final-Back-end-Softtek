@@ -53,7 +53,6 @@ public class ProductController {
     @GetMapping("/public/products")
     public ResponseEntity<?> getAllProduct(@RequestParam int page) {
         try {
-////
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(productService.getAllProducts(page));
         } catch (Exception e) {
 

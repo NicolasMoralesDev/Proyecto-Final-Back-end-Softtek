@@ -30,6 +30,8 @@ public class Product {
 
     private String brand;
 
+    private int stock;
+
     @Column(name = "img_url")
     private String imageUrl;
 
