@@ -1,6 +1,7 @@
 package TecnoTienda.tienda.service;
 
 import TecnoTienda.tienda.dto.ChangePasswordRequestDTO;
+import TecnoTienda.tienda.dto.UserDTO;
 import TecnoTienda.tienda.entity.User;
 
 import java.util.List;
