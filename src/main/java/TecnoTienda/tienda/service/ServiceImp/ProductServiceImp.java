@@ -42,11 +42,10 @@ public class ProductServiceImp implements ProductService {
         
         //       crea el listado de productos paginable 
         ProductPaginationDTO listProducts = new ProductPaginationDTO();
-        Page <Product> listProductsbd = productDao.findByCategory(category, pageable);
         
 //        se setean los datos devueltos por la bd y se modela un dto
         listProducts.setPage(page);
-        listProducts.setProductos(productMapper.productListToProductDtoList((List<Product>) listProductsbd));
+        listProducts.setProductos(productMapper.productListToProductDtoList(productDao.findByCategory(category, pageable).getContent()));
         listProducts.setTotal(productDao.findByCategory(category, pageable).getTotalPages());
         return listProducts;
     }
@@ -57,11 +56,10 @@ public class ProductServiceImp implements ProductService {
         Pageable pageable = PageRequest.of(page,10);
 //       crea el listado de productos paginable 
         ProductPaginationDTO listProducts = new ProductPaginationDTO();
-        Page <Product> listProductsbd = productDao.findAll(pageable);
         
 //        se setean los datos devueltos por la bd y se modela un dto
         listProducts.setPage(page);
-        listProducts.setProductos(productMapper.productListToProductDtoList((List<Product>) listProductsbd));
+        listProducts.setProductos(productMapper.productListToProductDtoList(productDao.findAll(pageable).getContent() ));
         listProducts.setTotal(productDao.findAll(pageable).getTotalPages());
         return listProducts;
     }
