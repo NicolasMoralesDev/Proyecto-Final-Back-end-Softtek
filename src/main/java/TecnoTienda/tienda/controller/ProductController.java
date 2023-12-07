@@ -41,12 +41,8 @@ public class ProductController {
     @GetMapping("/public/products")
     public ResponseEntity<?> getAllProduct(@RequestParam int page){
         try{
-            ProductPaginationDTO listProducts = new ProductPaginationDTO();
-            listProducts.setPage(productService.getAllProducts(page).getPageable().getPageNumber()+1);
-            listProducts.setProductos(productMapper.productListToProductDtoList(productService.getAllProducts(page).getContent()));
-            listProducts.setTotal(productService.getAllProducts(page).getTotalPages()-1);
-
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(listProducts);
+////
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(productService.getAllProducts(page));
         }catch (Exception e){
 
             e.printStackTrace();
@@ -59,11 +55,7 @@ public class ProductController {
     public ResponseEntity<?> getProductByCategory(@PathVariable("category") String category,
                                                   @RequestParam int page){
         try{
-            ProductPaginationDTO listProducts = new ProductPaginationDTO();
-            listProducts.setPage(productService.findByCategory(category, page).getPageable().getPageNumber());
-            listProducts.setProductos(productMapper.productListToProductDtoList(productService.findByCategory(category, page).getContent()));
-            listProducts.setTotal(productService.findByCategory(category, page).getTotalPages());
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(listProducts);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(productService.findByCategory(category, page));
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
