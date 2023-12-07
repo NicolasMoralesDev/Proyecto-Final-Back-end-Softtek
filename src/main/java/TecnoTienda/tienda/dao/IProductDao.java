@@ -14,15 +14,14 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-
 @Repository
-public interface IProductDao extends JpaRepository<Product,Integer> {
-
+public interface IProductDao extends JpaRepository<Product, Integer> {
 
     @Query("SELECT p FROM Product  p WHERE p.category = :category AND p.status = 'on'")
-    Page<Product> findByCategory(@Param("category")String category,  Pageable pageable);
+    Page<Product> findByCategory(@Param("category") String category, Pageable pageable);
 
-
+    @Query("SELECT p FROM Product p WHERE p.name LIKE %:search% AND p.status = 'on'")
+    Page<Product> findProductsBySearchQuery(@Param("search") String search, Pageable pageable);
 
     @Override
     @NonNull
@@ -33,7 +32,6 @@ public interface IProductDao extends JpaRepository<Product,Integer> {
     @NonNull
     @Query("SELECT p FROM Product p WHERE p.status = 'on'")
     List<Product> findAll();
-
 
     @Transactional
     @Modifying

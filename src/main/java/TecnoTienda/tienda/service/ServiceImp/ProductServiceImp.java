@@ -24,45 +24,81 @@ public class ProductServiceImp implements ProductService {
     IProductDao productDao;
     @Autowired
     ProductMapper productMapper;
+
     @Override
     public ProductDTO addProduct(ProductDTO productDto) {
         try {
             Product product = productMapper.productDtoToProduct(productDto);
             return productMapper.productToProductDto(productDao.save(product));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
     @Override
-    public Page <Product> findByCategory(String category, int page){
-        Pageable pageable = PageRequest.of(page,10);
-        return productDao.findByCategory(category, pageable);
-    }
-    @Override
-    public Page <Product> getAllProducts(int page){
-        Pageable pageable = PageRequest.of(page,10);
-        return productDao.findAll(pageable);
+    public ProductPaginationDTO findByCategory(String category, int page) {
+
+        Pageable pageable = PageRequest.of(page, 10);
+
+        //       crea el listado de productos paginable 
+        ProductPaginationDTO listProducts = new ProductPaginationDTO();
+
+//        se setean los datos devueltos por la bd y se modela un dto
+        listProducts.setPage(page);
+        listProducts.setProductos(productMapper.productListToProductDtoList(productDao.findByCategory(category, pageable).getContent()));
+        listProducts.setTotal(productDao.findByCategory(category, pageable).getTotalPages());
+        return listProducts;
     }
 
     @Override
-    public ProductDTO findById(int id){
-        return  productMapper.productToProductDto(productDao.findById(id).get());
+    public ProductPaginationDTO getAllProducts(int page) {
+
+//        objeto pagina
+        Pageable pageable = PageRequest.of(page, 10);
+//       crea el listado de productos paginable 
+        ProductPaginationDTO listProducts = new ProductPaginationDTO();
+
+//        se setean los datos devueltos por la bd y se modela un dto
+        listProducts.setPage(page);
+        listProducts.setProductos(productMapper.productListToProductDtoList(productDao.findAll(pageable).getContent()));
+        listProducts.setTotal(productDao.findAll(pageable).getTotalPages());
+        return listProducts;
     }
 
     @Override
-    public void softDeleteProductById(int id){
+    public ProductDTO findById(int id) {
+        return productMapper.productToProductDto(productDao.findById(id).get());
+    }
+
+    @Override
+    public void softDeleteProductById(int id) {
         productDao.softDeleteProductById(id);
 
     }
+
     @Override
-    public void setActiveProductById(int id){
+    public void setActiveProductById(int id) {
         productDao.setActiveProductById(id);
     }
 
     @Override
-    public void addBulkProducts(List<ProductDTO> productsDto){
+    public void addBulkProducts(List<ProductDTO> productsDto) {
         productDao.saveAll(productMapper.productDtoListToProductList(productsDto));
+    }
+
+    @Override
+    public ProductPaginationDTO getProductByQuery(String q, int page) {
+
+        Pageable pageable = PageRequest.of(page, 10);
+
+        //       crea el listado de productos paginable 
+        ProductPaginationDTO listProducts = new ProductPaginationDTO();
+
+//        se setean los datos devueltos por la bd y se modela un dto
+        listProducts.setPage(page);
+        listProducts.setProductos(productMapper.productListToProductDtoList(productDao.findProductsBySearchQuery(q, pageable).getContent()));
+        listProducts.setTotal(productDao.findProductsBySearchQuery(q, pageable).getTotalPages());
+        return listProducts;
     }
 }

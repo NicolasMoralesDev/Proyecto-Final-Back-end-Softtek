@@ -13,11 +13,13 @@ public interface ProductService {
 
     public ProductDTO addProduct(ProductDTO productDto);
 
-    public Page <Product> getAllProducts(int page);
+    public ProductPaginationDTO getAllProducts(int page);
+    
+    public ProductPaginationDTO getProductByQuery(String q, int page);
 
     public ProductDTO findById(int id);
 
-    public Page <Product> findByCategory(String category, int page);
+    public ProductPaginationDTO findByCategory(String category, int page);
 
     public void softDeleteProductById(int id);
 
