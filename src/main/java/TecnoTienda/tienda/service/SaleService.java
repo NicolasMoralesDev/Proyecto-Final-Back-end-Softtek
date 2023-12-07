@@ -1,13 +1,11 @@
 package TecnoTienda.tienda.service;
 
-import TecnoTienda.tienda.dto.SaleDTO;
+import TecnoTienda.tienda.dto.*;
 import TecnoTienda.tienda.entity.Sale;
-
-import java.util.List;
 
 public interface SaleService {
 
-    public Sale saveSale(Sale sale);
+    SaleDTO saveSale(CreateSaleRequestDTO requestDTO);
 
-    public SaleDTO saleByUserId(int id);
+    UserSalesResponseDTO saleByUserId(UserSalesRequestDTO requestDTO);
 }

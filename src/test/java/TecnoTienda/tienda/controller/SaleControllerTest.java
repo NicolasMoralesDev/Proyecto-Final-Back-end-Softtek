@@ -1,5 +1,6 @@
 package TecnoTienda.tienda.controller;
 
+import TecnoTienda.tienda.dto.CreateSaleRequestDTO;
 import TecnoTienda.tienda.dto.SaleDTO;
 import TecnoTienda.tienda.entity.Item;
 import TecnoTienda.tienda.entity.Product;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
@@ -40,43 +42,22 @@ public class SaleControllerTest {
 
     @Test
     public void testSaveSale() {
-        // Configuración del servicio simulado
-        SaleDTO saleDto = new SaleDTO();
-        int userId = 1;
-
-        // Crear un producto y un ítem asociado
-        Product product = new Product();
-        product.setId(1);
-
-        Item item = new Item();
-        item.setProduct(product);
-        item.setAmount(1);
-
-        List<Item> itemList = Collections.singletonList(item);
-
-        // Crear un SaleDTO
-        saleDto.setIdUser(userId);
-        saleDto.setAddress("Dirección de prueba");
-        saleDto.setPhone("123456789");
-        saleDto.setItemList(itemList);
-
-        saleDto.setIdUser(userId);
-        saleDto.getItemList().add(item);
-        // Crear un usuario y configurar el servicio simulado
-        User user = new User();
-        when(userService.findById(userId)).thenReturn(user);
-
-        // Configurar el servicio simulado para devolver el producto cuando se llame al método findById
-        when(productService.findById(anyInt())).thenReturn(Optional.of(product));
-
-        // Llamada al controlador y verificación de resultados
-
-        ResponseEntity<?> responseEntity = saleController.saveSale(saleDto, userId);
+        // configurar dto solucitud
+        CreateSaleRequestDTO requestDTO = new CreateSaleRequestDTO();
 
 
-        // Verificar que los métodos del servicio se hayan llamado según lo esperado
-        verify(userService, times(1)).findById(userId);
-        verify(productService, times(itemList.size())).findById(anyInt());
-        verify(saleService, times(1)).saveSale(any(Sale.class));
+        SaleDTO expectedSaleDTO = new SaleDTO();
+        when(saleService.saveSale(requestDTO)).thenReturn(expectedSaleDTO);
+
+        // Llamada al metodo del controlador
+        ResponseEntity<?> responseEntity = saleController.saveSale(requestDTO);
+
+        // Verificación de resultados
+        verify(saleService, times(1)).saveSale(requestDTO);
+
+        // Asegúrate de el estado de la respuesta
+        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+        assertNotNull(responseEntity.getBody()); // Asegura de que la respuesta no sea nula
+
     }
 }

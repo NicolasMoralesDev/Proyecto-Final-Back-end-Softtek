@@ -4,10 +4,12 @@ package TecnoTienda.tienda.service.ServiceImp;
 import TecnoTienda.tienda.dao.IItemDao;
 import TecnoTienda.tienda.dao.ISaleDao;
 import TecnoTienda.tienda.dao.IProductDao;
-import TecnoTienda.tienda.dto.SaleDTO;
+import TecnoTienda.tienda.dto.*;
 import TecnoTienda.tienda.entity.Item;
 import TecnoTienda.tienda.entity.Product;
 import TecnoTienda.tienda.entity.Sale;
+import TecnoTienda.tienda.entity.User;
+import TecnoTienda.tienda.mappers.SaleRowMapper;
 import TecnoTienda.tienda.service.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,31 +25,57 @@ public class SaleServiceImp implements SaleService {
     ISaleDao saleDao;
 
     @Autowired
+    UserServiceImp userService;
+
+    @Autowired
     IItemDao itemDao;
 
     @Autowired
     IProductDao productDao;
+
+    @Autowired
+    SaleRowMapper saleRowMapper;
+
     @Override
-    public Sale saveSale(Sale sale){
-        return saleDao.save(sale);
+    public SaleDTO saveSale(CreateSaleRequestDTO requestDTO){
+        System.out.println("requestDTO = " + requestDTO);
+        User user = userService.findById(requestDTO.getIdUser());
+        Sale newSale = new Sale();
+
+        for (Item item : requestDTO.getItemList()) {
+            Item i = new Item();
+            i.setProduct(productDao.findById(item.getProduct().getId()).get());
+            i.setAmount(item.getAmount());
+            i.setSale(newSale);
+            newSale.getItemList().add(i);
+        }
+
+        newSale.setAddress(requestDTO.getAddress());
+        newSale.setPhone(requestDTO.getPhone());
+        newSale.setUser(user);
+
+        Integer newSaleId = saleDao.save(newSale).getId();
+        Sale sale = saleDao.findById(newSaleId).get();
+
+        return saleRowMapper.saleToSaleDTO(sale);
     }
 
     @Override
-    public SaleDTO saleByUserId(int id){
-        List<Sale> saleByIdUser = saleDao.saleByUserId(id);
-        List<Item> itemList = new ArrayList<>();
-        SaleDTO saleDto = new SaleDTO();
-        for(Sale sale : saleByIdUser){
-            itemList.addAll(itemDao.getItemBySaleId(sale.getId()).stream().collect(Collectors.toList()));
-        }
-        for(Item i : itemList){
-            Item item = new Item();
-            Product product = productDao.findById(i.getProduct().getId()).get();
-            item.setId(i.getId());
-            item.setProduct(product);
-            item.setAmount(i.getAmount());
-            saleDto.getItemList().add(item);
-        }
-        return saleDto;
+    public UserSalesResponseDTO saleByUserId(UserSalesRequestDTO requestDTO){
+
+        int idUser = requestDTO.getIdUser();
+        List<Sale> sales = saleDao.saleByUserId(idUser);
+
+        UserSalesResponseDTO response = new UserSalesResponseDTO();
+        response.setIdUser(idUser);
+
+        // Se recorre la lista de ventas y se crea un SaleDTO por cada venta
+        List<SaleDTO> saleDTOS = sales.stream().map(sale -> {
+            return saleRowMapper.saleToSaleDTO(sale);
+        }).collect(Collectors.toList());
+
+        response.setSaleList(saleDTOS);
+
+        return response;
     }
 }

@@ -56,6 +56,5 @@ public class UserController {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
-
     }
 }
