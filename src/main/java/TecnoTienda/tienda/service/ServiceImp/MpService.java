@@ -27,7 +27,7 @@ public class MpService implements IMpService {
     public String OrderMp(MercadoPagoDTO data) {
 
         // Agrega credenciales
-        MercadoPagoConfig.setAccessToken("PROD_ACCESS_TOKEN");
+        MercadoPagoConfig.setAccessToken("TEST-1981036742439068-120723-a8af31fd8a97e327259d4dbb49598927-758580456");
 
         PreferenceItemRequest itemRequest
                 = PreferenceItemRequest.builder()
