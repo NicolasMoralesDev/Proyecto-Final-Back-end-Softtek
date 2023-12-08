@@ -5,7 +5,7 @@ metadata:
   labels:
     app: backend
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: backend
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: nicomuros/final-acsofttek-backend:0.0.1
+          image: nicomuros/final-acsofttek-backend:0.0.3
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
