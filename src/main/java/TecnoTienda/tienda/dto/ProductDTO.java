@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Data
 public class ProductDTO {
+    private int id;
     private String name;
 
     private String description;
