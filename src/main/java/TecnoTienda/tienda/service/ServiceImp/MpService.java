@@ -32,10 +32,10 @@ public class MpService implements IMpService {
         PreferenceItemRequest itemRequest
                 = PreferenceItemRequest.builder()
                         .id(data.getId())
-                        .title("Games")
+                        .title("TecnoCompro")
                         .description("Pago de compra")
                         .pictureUrl("http://picture.com/PS5")
-                        .categoryId("games")
+                        .categoryId("Hardward y Equipos informaticos")
                         .quantity(data.getAmount())
                         .currencyId("ARS")
                         .unitPrice(new BigDecimal(data.getPrice()))

@@ -47,7 +47,7 @@ public class SaleRowMapper {
         for (Item item : saleDto.getItemList()) {
                 Item i = new Item();
                 // TODO: Product mapper?
-                i.setProduct(productDao.findById(item.getProduct().getId()).get());
+                i.setProduct(productDao.findById(item.getProduct().getId).get());
                 i.setAmount(item.getAmount());
                 i.setSale(sale);
                 sale.getItemList().add(i);
