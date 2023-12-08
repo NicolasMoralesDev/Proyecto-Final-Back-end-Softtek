@@ -1,8 +1,7 @@
 package TecnoTienda.tienda.controller;
 
-
-import TecnoTienda.tienda.entity.ChangePasswordRequest;
-
+import TecnoTienda.tienda.dto.AuthenticationResponseDTO;
+import TecnoTienda.tienda.dto.UserDTO;
 import TecnoTienda.tienda.entity.User;
 import TecnoTienda.tienda.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -33,7 +32,7 @@ public class UserControllerTest {
         when(userService.findAll()).thenReturn(userList);
 
         // Llamada al controlador y verificación de resultados
-        ResponseEntity<List<User>> responseEntity = userController.getUsers();
+        ResponseEntity<List<UserDTO>> responseEntity = userController.getUsers();
         assertEquals(HttpStatus.ACCEPTED, responseEntity.getStatusCode());
         assertEquals(userList, responseEntity.getBody());
 
@@ -49,7 +48,7 @@ public class UserControllerTest {
         when(userService.findById(userId)).thenReturn(user);
 
         // Llamada al controlador y verificación de resultados
-        ResponseEntity<User> responseEntity = userController.getUserById(userId);
+        ResponseEntity<UserDTO> responseEntity = userController.getUserById(userId);
         assertEquals(HttpStatus.FOUND, responseEntity.getStatusCode());
         assertEquals(user, responseEntity.getBody());
 

@@ -42,22 +42,28 @@ public class SaleControllerTest {
 
     @Test
     public void testSaveSale() {
-        // configurar dto solucitud
+
+
+        // Inicio creación requestDTO
+        // Configuración del servicio simulado
         CreateSaleRequestDTO requestDTO = new CreateSaleRequestDTO();
 
-
         SaleDTO expectedSaleDTO = new SaleDTO();
+
+        // Configuración del servicio simulado
         when(saleService.saveSale(requestDTO)).thenReturn(expectedSaleDTO);
 
-        // Llamada al metodo del controlador
+        // Ejecución del método a probar
         ResponseEntity<?> responseEntity = saleController.saveSale(requestDTO);
 
-        // Verificación de resultados
+        // Verificación de invocaciones
         verify(saleService, times(1)).saveSale(requestDTO);
 
-        // Asegúrate de el estado de la respuesta
+        // Verificación de resultados
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        assertNotNull(responseEntity.getBody()); // Asegura de que la respuesta no sea nula
+        assertEquals(expectedSaleDTO, responseEntity.getBody());
+
+
 
     }
 }

@@ -2,8 +2,10 @@ package TecnoTienda.tienda.service.ServiceImp;
 
 
 import TecnoTienda.tienda.dao.IUserDao;
-import TecnoTienda.tienda.entity.ChangePasswordRequest;
+import TecnoTienda.tienda.dto.ChangePasswordRequestDTO;
+import TecnoTienda.tienda.dto.UserDTO;
 import TecnoTienda.tienda.entity.User;
+import TecnoTienda.tienda.mappers.UserMapper;
 import TecnoTienda.tienda.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 
 @Service
 public class UserServiceImp  implements UserService{
@@ -21,6 +24,8 @@ public class UserServiceImp  implements UserService{
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @Autowired
+    UserMapper userMapper;
     @Override
     public User findById(int id) {
         return userDao.findById(id).get();
@@ -33,6 +38,8 @@ public class UserServiceImp  implements UserService{
 
     @Override
     public User saveUser(User user){
+
+
         return userDao.save(user);
     }
 
@@ -41,7 +48,7 @@ public class UserServiceImp  implements UserService{
      * @param request the request with the userId, the current password and the new password.
      */
     @Override
-    public void changePassword(ChangePasswordRequest request){
+    public void changePassword(ChangePasswordRequestDTO request){
         User user = userDao.findById(request.getUserId()).orElseThrow(() -> new UsernameNotFoundException("User not found in database"));
         if(!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())){
             throw new IllegalStateException("Wrong password");
