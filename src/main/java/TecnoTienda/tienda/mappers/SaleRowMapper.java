@@ -26,6 +26,7 @@ public class SaleRowMapper {
         saleDTO.setId(sale.getId());
         saleDTO.setAddress(sale.getAddress());
         saleDTO.setPhone(sale.getPhone());
+        saleDTO.setStatus(sale.getStatus());
         saleDTO.setDate(sale.getDate());
         if (sale.getItemList() != null) {
             for (Item item : sale.getItemList()) {
@@ -44,6 +45,7 @@ public class SaleRowMapper {
         Sale sale = new Sale();
         sale.setAddress(saleDto.getAddress());
         sale.setPhone(saleDto.getPhone());
+        sale.setStatus(saleDto.getStatus());
         sale.setDate(LocalDate.now());
         for (Item item : saleDto.getItemList()) {
                 Item i = new Item();
