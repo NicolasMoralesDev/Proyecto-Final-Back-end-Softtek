@@ -39,7 +39,7 @@ public class ProductControllerTest {
         // Crear un Page paginado con al menos una página
         Page<ProductDTO> pageResult = new PageImpl<>(products, PageRequest.of(0, 10), 1);
 
-       // Mockito.when(productService.getAllProducts(page)).thenReturn(pageResult);
+        // Mockito.when(productService.getAllProducts(page)).thenReturn(pageResult);
 
         // Llamada al controlador y verificación de resultados
         ResponseEntity<?> responseEntity = productController.getAllProduct(page);
@@ -83,6 +83,6 @@ public class ProductControllerTest {
         assertTrue(responseEntity.getBody() instanceof ProductPaginationDTO);
 
         ProductPaginationDTO productPaginationDTO = (ProductPaginationDTO) responseEntity.getBody();
-       // assertTrue(productPaginationDTO.getProductos() != null && !productPaginationDTO.getProductos().isEmpty());
+        // assertTrue(productPaginationDTO.getProductos() != null && !productPaginationDTO.getProductos().isEmpty());
     }
 }
