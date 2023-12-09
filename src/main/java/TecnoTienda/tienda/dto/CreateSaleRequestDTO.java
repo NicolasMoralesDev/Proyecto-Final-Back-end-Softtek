@@ -1,6 +1,9 @@
 package TecnoTienda.tienda.dto;
 
 import TecnoTienda.tienda.entity.Item;
+import TecnoTienda.tienda.entity.SaleStatus;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -16,6 +19,7 @@ public class CreateSaleRequestDTO {
     private List<Item> itemList = new ArrayList<>();
 
     private String address;
-
+    @Enumerated(EnumType.STRING)
+    private SaleStatus status;
     private String phone;
 }

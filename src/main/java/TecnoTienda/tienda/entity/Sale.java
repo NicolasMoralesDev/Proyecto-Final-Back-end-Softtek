@@ -32,6 +32,9 @@ public class Sale {
     private String address;
 
     private String phone;
+    
+    @Enumerated(EnumType.STRING)
+    private SaleStatus status;
 
 
     @ManyToOne
