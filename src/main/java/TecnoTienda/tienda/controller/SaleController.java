@@ -28,6 +28,7 @@ public class SaleController {
 
     @Operation(summary = "Endpoint de acceso Rol Usuario, Guarda una orden ")
     @PostMapping("/sale/save")
+
     public ResponseEntity<?> saveSale(@RequestBody CreateSaleRequestDTO requestDTO) {
         SaleDTO saleDTO = saleService.saveSale(requestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(saleDTO);

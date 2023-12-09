@@ -1,6 +1,9 @@
 package TecnoTienda.tienda.dto;
 
 import TecnoTienda.tienda.entity.Item;
+import TecnoTienda.tienda.entity.SaleStatus;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -15,5 +18,7 @@ public class SaleDTO {
     private List<Item> itemList = new ArrayList<>();
     private String address;
     private String phone;
+    @Enumerated(EnumType.STRING)
+    private SaleStatus status;
     private LocalDate date;
 }
