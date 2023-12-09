@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -61,8 +59,8 @@ public class ProductServiceImp implements ProductService {
 
 //        se setean los datos devueltos por la bd y se modela un dto
         listProducts.setPage(page);
-        listProducts.setProductos(productMapper.productListToProductDtoList(productDao.findAll(pageable).getContent()));
-        listProducts.setTotal(productDao.findAll(pageable).getTotalPages());
+        listProducts.setProductos(productMapper.productListToProductDtoList(productDao.findAllPage(pageable).getContent()));
+        listProducts.setTotal(productDao.findAllPage(pageable).getTotalPages());
         return listProducts;
     }
     @Override

@@ -7,5 +7,7 @@ public interface SaleService {
 
     SaleDTO saveSale(CreateSaleRequestDTO requestDTO);
 
-    UserSalesResponseDTO saleByUserId(UserSalesRequestDTO requestDTO);
+    SalePaginationDTO saleByUserId(UserSalesRequestDTO requestDTO, int page);
+
+    SalePaginationDTO getAllSales(int page);
 }

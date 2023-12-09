@@ -33,6 +33,10 @@ public interface IProductDao extends JpaRepository<Product, Integer> {
     @Query("SELECT p FROM Product p WHERE p.status = 'on' AND p.stock > 0")
     List<Product> findAll();
 
+    @NonNull
+    @Query("SELECT p FROM Product p WHERE p.status = 'on' AND p.stock > 0")
+    Page<Product> findAllPage(@Param("pageable") Pageable pageable);
+
     @Query("UPDATE Product p SET p.stock = :stock WHERE p.id = :id")
     void setStockById(@Param("id") int id, @Param("stock") int stock);
 
