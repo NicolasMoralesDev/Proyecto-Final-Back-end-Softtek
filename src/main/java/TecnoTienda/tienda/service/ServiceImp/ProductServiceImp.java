@@ -62,7 +62,7 @@ public class ProductServiceImp implements ProductService {
 //        se setean los datos devueltos por la bd y se modela un dto
         listProducts.setPage(page);
         listProducts.setProductos(productMapper.productListToProductDtoList(productDao.findAll(pageable).getContent()));
-        listProducts.setTotal(productDao.findAll(pageable).getTotalPages());
+        listProducts.setTotal(productDao.findAllPage(pageable).getTotalPages());
         return listProducts;
     }
     @Override

@@ -2,6 +2,7 @@ package TecnoTienda.tienda.service;
 
 import TecnoTienda.tienda.dto.AuthenticationResponseDTO;
 import TecnoTienda.tienda.dto.LoginRequestDTO;
+import TecnoTienda.tienda.dto.RecoverDTO;
 import TecnoTienda.tienda.dto.RegisterRequestDTO;
 
 public interface AuthService {
@@ -21,4 +22,6 @@ public interface AuthService {
      * @return AuthenticationResponse, contains the token or an error.
      */
     AuthenticationResponseDTO register(RegisterRequestDTO request);
+    
+    String recover(RecoverDTO request);
 }
