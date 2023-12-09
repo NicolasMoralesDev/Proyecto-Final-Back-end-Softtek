@@ -7,8 +7,8 @@ package TecnoTienda.tienda.entity;
  */
 public enum SaleStatus {
     
-    PENDING,
-    CANCEL,
-    APPROVED;
+    PENDIENTE,
+    CANCELADA,
+    APROBADA;
     
 }
