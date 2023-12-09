@@ -27,4 +27,6 @@ public interface ProductService {
     public void setActiveProductById(int id);
 
     public void addBulkProducts(List<ProductDTO> products);
+
+    ProductDTO updateProduct(ProductDTO updatedProductDto);
 }

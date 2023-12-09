@@ -3,6 +3,7 @@ package TecnoTienda.tienda.controller;
 import TecnoTienda.tienda.dto.ProductDTO;
 import TecnoTienda.tienda.dto.ProductPaginationDTO;
 import TecnoTienda.tienda.entity.Product;
+import TecnoTienda.tienda.exceptions.ProductNotFoundException;
 import TecnoTienda.tienda.mappers.ProductMapper;
 import TecnoTienda.tienda.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -130,4 +131,20 @@ public class ProductController {
         }
     }
 
+    @Operation(summary = "Endpoint solo accesible con rol de Admin, actualizar un producto en la base de datos")
+    @PutMapping("/admin/products")
+    public ResponseEntity<ProductDTO> updateProduct( @RequestBody ProductDTO updatedProductDto) {
+
+        try {
+            ProductDTO productDTO = productService.updateProduct(updatedProductDto);
+            System.out.println("productDTO = " + productDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(productDTO);
+        } catch (ProductNotFoundException e) {
+            // Manejar el caso donde no se encuentra el producto
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
 }

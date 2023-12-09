@@ -4,6 +4,7 @@ import TecnoTienda.tienda.dao.IProductDao;
 import TecnoTienda.tienda.dto.ProductDTO;
 import TecnoTienda.tienda.dto.ProductPaginationDTO;
 import TecnoTienda.tienda.entity.Product;
+import TecnoTienda.tienda.exceptions.ProductNotFoundException;
 import TecnoTienda.tienda.mappers.ProductMapper;
 import TecnoTienda.tienda.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,15 +55,22 @@ public class ProductServiceImp implements ProductService {
     @Override
     public ProductPaginationDTO getAllProducts(int page) {
 
-//        objeto pagina
+        // objeto pagina
         Pageable pageable = PageRequest.of(page, 10);
-//       crea el listado de productos paginable 
+
+        // crea el listado de productos paginable
         ProductPaginationDTO listProducts = new ProductPaginationDTO();
 
-//        se setean los datos devueltos por la bd y se modela un dto
+        // se obtienen los datos de la BD
+        Page<Product> productsPage = productDao.findAll(pageable);
+
+        // se mapean los productos a ProductDTO
+        List<ProductDTO> productDTOs = productMapper.productListToProductDtoList(productsPage.getContent());
+
+        // se setean los datos en el ProductPaginationDTO
         listProducts.setPage(page);
-        listProducts.setProductos(productMapper.productListToProductDtoList(productDao.findAll(pageable).getContent()));
-        listProducts.setTotal(productDao.findAll(pageable).getTotalPages());
+        listProducts.setProductos(productDTOs);
+        listProducts.setTotal(productsPage.getTotalPages());
         return listProducts;
     }
     @Override
@@ -103,5 +111,33 @@ public class ProductServiceImp implements ProductService {
         listProducts.setProductos(productMapper.productListToProductDtoList(productDao.findProductsBySearchQuery(q, pageable).getContent()));
         listProducts.setTotal(productDao.findProductsBySearchQuery(q, pageable).getTotalPages());
         return listProducts;
+    }
+
+    @Override
+    public ProductDTO updateProduct(ProductDTO updatedProductDto) {
+
+
+
+            // Guardar el producto actualizado
+            Product product = productMapper.productDtoToProduct(updatedProductDto);
+            product.setId(updatedProductDto.getId());
+            Product prod = productDao.save(product);
+            System.out.println("prod = " + prod);
+            return productMapper.productToProductDto(prod);
+
+    }
+
+    private static Product getProduct(ProductDTO updatedProductDto, Optional<Product> optionalProduct) {
+        Product existingProduct = optionalProduct.get();
+
+        // Actualizar los campos del producto existente con los nuevos datos
+        existingProduct.setName(updatedProductDto.getName());
+        existingProduct.setBrand(updatedProductDto.getBrand());
+        existingProduct.setDescription(updatedProductDto.getDescription());
+        existingProduct.setCategory(updatedProductDto.getCategory());
+        existingProduct.setPrice(updatedProductDto.getPrice());
+        existingProduct.setImageUrl(updatedProductDto.getImageUrl());
+        existingProduct.setStock(updatedProductDto.getStock());
+        return existingProduct;
     }
 }
