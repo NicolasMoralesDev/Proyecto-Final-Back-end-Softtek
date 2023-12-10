@@ -15,7 +15,7 @@ public class UserMapper {
         userDto.setId(user.getId());
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
-        userDto.setEmail(userDto.getEmail());
+        userDto.setEmail(user.getEmail());
         return userDto;
     }
     public List<UserDTO> listUserToListUserDto(List<User> listUser){

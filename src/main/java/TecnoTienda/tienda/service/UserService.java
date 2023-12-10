@@ -14,5 +14,9 @@ public interface UserService  {
 
     public List<User> findAll();
 
+    /**
+     * Method for change the password of the user.
+     * @param changePasswordRequest the request with the userId, the current password and the new password.
+     */
     public void changePassword(ChangePasswordRequestDTO changePasswordRequest);
 }
