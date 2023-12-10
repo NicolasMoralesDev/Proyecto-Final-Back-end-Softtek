@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * DTO for the request of the creation of a sale.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
