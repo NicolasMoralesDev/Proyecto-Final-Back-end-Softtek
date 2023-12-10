@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping("/api/private/sales")
+@RequestMapping("/api/user/sales")
 @CrossOrigin(origins = "*")
 public class MercadoPagoController {
     
@@ -32,7 +32,7 @@ public class MercadoPagoController {
     public ResponseEntity<?> postPayOrder(@RequestBody MercadoPagoDTO pago ){
         try {
             
-                        return new ResponseEntity(mpserv.OrderMp(pago), HttpStatus.ACCEPTED);
+                   return new ResponseEntity(mpserv.OrderMp(pago), HttpStatus.ACCEPTED);
         } catch (Exception e) {
             return new ResponseEntity(e.getStackTrace(), HttpStatus.BAD_REQUEST);
         }
