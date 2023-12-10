@@ -23,8 +23,8 @@ public interface IProductDao extends JpaRepository<Product, Integer> {
     @Query("SELECT p FROM Product p WHERE p.name LIKE %:search% AND p.status = 'on' AND p.stock > 0")
     Page<Product> findProductsBySearchQuery(@Param("search") String search, Pageable pageable);
 
-    @Query("SELECT p FROM Product p WHERE p.status = 'on' AND p.stock > 0")
-    Page<Product> findAllPage(@Param("pageable") Pageable pageable);
+     @Query("SELECT p FROM Product p WHERE  p.status = 'on' AND p.stock > 0")
+    Page<Product> findAllPage( Pageable pageable);
     @Override
     @NonNull
     @Query("SELECT p FROM Product p WHERE p.id = :id AND p.status = 'on' AND p.stock > 0")
