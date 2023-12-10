@@ -34,12 +34,9 @@ public class User implements UserDetails {
     private Role role;
 
 
-
     /**
-     * Retorna la lista de roles del usuario. Esta lista es utilizada por Spring Security para verificar
-     * los permisos del usuario. Se crea una lista de SimpleGrantedAuthority con el rol del usuario.
-     * SimpleGrantedAuthority sirve para representar autoridades (roles) de seguridad.
-     * @return Lista de roles del usuario.
+     * Return the authorities of the user. This method is used by Spring Security to check the permissions of the user.
+     * @return List of authorities of the user.
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -47,9 +44,9 @@ public class User implements UserDetails {
     }
 
     /**
-     * Retorna el nombre de usuario del usuario. Este nombre es utilizado por Spring Security para verificar
-     * los permisos del usuario. Se retorna el email del usuario.
-     * @return
+     * Return the username of the user. This method is used by Spring Security to check the username of the user.
+     *
+     * @return Username of the user.
      */
     @Override
     public String getUsername() {
