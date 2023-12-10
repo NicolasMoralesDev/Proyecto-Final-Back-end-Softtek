@@ -5,20 +5,19 @@ import TecnoTienda.tienda.dto.CreateSaleRequestDTO;
 import TecnoTienda.tienda.dto.SaleDTO;
 import TecnoTienda.tienda.entity.Item;
 import TecnoTienda.tienda.entity.Sale;
-import TecnoTienda.tienda.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Component
-public class SaleRowMapper {
+public class SaleMapper {
 
     @Autowired
     IProductDao productDao;
 
-    public SaleRowMapper() {
+    public SaleMapper() {
     }
 
     public SaleDTO saleToSaleDTO(Sale sale) {
@@ -56,5 +55,13 @@ public class SaleRowMapper {
                 sale.getItemList().add(i);
         }
         return sale;
+    }
+
+    public List<SaleDTO> saleListToSaleDTOList(List<Sale> listSale){
+        List<SaleDTO> listSaleDTO = null;
+        listSaleDTO = listSale.stream()
+                .map(this::saleToSaleDTO)
+                .toList();
+        return listSaleDTO;
     }
 }

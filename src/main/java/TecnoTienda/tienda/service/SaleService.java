@@ -6,6 +6,7 @@ import TecnoTienda.tienda.entity.Sale;
 public interface SaleService {
 
     SaleDTO saveSale(CreateSaleRequestDTO requestDTO);
+    SalePaginationDTO saleByUserId(UserSalesRequestDTO requestDTO, int page);
 
-    UserSalesResponseDTO saleByUserId(UserSalesRequestDTO requestDTO);
+    SalePaginationDTO getAllSales(int page);
 }

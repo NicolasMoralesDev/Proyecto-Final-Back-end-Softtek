@@ -1,21 +1,20 @@
 package TecnoTienda.tienda.service.ServiceImp;
 
 
-import TecnoTienda.tienda.dao.IItemDao;
 import TecnoTienda.tienda.dao.ISaleDao;
-import TecnoTienda.tienda.dao.IProductDao;
 import TecnoTienda.tienda.dto.*;
-import TecnoTienda.tienda.entity.Item;
-import TecnoTienda.tienda.entity.Product;
 import TecnoTienda.tienda.entity.Sale;
 import TecnoTienda.tienda.entity.User;
-import TecnoTienda.tienda.mappers.SaleRowMapper;
+import TecnoTienda.tienda.mappers.SaleMapper;
 import TecnoTienda.tienda.service.SaleService;
 import TecnoTienda.tienda.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,33 +28,43 @@ public class SaleServiceImp implements SaleService {
     UserService userService;
 
     @Autowired
-    SaleRowMapper saleRowMapper;
+    SaleMapper saleMapper;
 
     @Override
     public SaleDTO saveSale(CreateSaleRequestDTO requestDTO){
         // pasar de DTO a ENTITY y buscar en la base de datos
         User user = userService.findById(requestDTO.getIdUser());
 
-        Sale newSale = saleRowMapper.saleRequestDtoToSale(requestDTO);
+        Sale newSale = saleMapper.saleRequestDtoToSale(requestDTO);
         newSale.setUser(user);
 
-        return saleRowMapper.saleToSaleDTO(saleDao.save(newSale));
+        return saleMapper.saleToSaleDTO(saleDao.save(newSale));
     }
 
     @Override
-    public UserSalesResponseDTO saleByUserId(UserSalesRequestDTO requestDTO){
+    public SalePaginationDTO saleByUserId(UserSalesRequestDTO requestDTO, int page){
 
         int idUser = requestDTO.getIdUser();
-        List<Sale> sales = saleDao.saleByUserId(idUser);
+        Pageable pageable = PageRequest.of(page, 10);
+        SalePaginationDTO salePaginationDTO = new SalePaginationDTO();
+        salePaginationDTO.setPage(page);
 
-        UserSalesResponseDTO response = new UserSalesResponseDTO();
-        response.setIdUser(idUser);
+        Page<Sale> saleList = saleDao.saleByUserIdPageable(idUser, pageable);
 
-        // Se recorre la lista de ventas y se crea un SaleDTO por cada venta
-        List<SaleDTO> saleDTOS = sales.stream()
-                                      .map(sale -> saleRowMapper.saleToSaleDTO(sale))
-                                      .collect(Collectors.toList());
-        response.setSaleList(saleDTOS);
-        return response;
+        salePaginationDTO.setSales(saleMapper.saleListToSaleDTOList(saleList.getContent()));
+        salePaginationDTO.setTotal(saleList.getTotalPages());
+        return salePaginationDTO;
+    }
+
+    @Override
+    public SalePaginationDTO getAllSales(int page){
+        Pageable pageable = PageRequest.of(page, 10);
+        SalePaginationDTO salePaginationDTO = new SalePaginationDTO();
+        salePaginationDTO.setPage(page);
+
+        Page<Sale> saleList = saleDao.findAllPage(pageable);
+        salePaginationDTO.setSales(saleMapper.saleListToSaleDTOList(saleList.getContent()));
+        salePaginationDTO.setTotal(saleList.getTotalPages());
+        return salePaginationDTO;
     }
 }

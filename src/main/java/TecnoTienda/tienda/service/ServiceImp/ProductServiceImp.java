@@ -69,8 +69,8 @@ public class ProductServiceImp implements ProductService {
 
         // se setean los datos en el ProductPaginationDTO
         listProducts.setPage(page);
-        listProducts.setProductos(productDTOs);
-        listProducts.setTotal(productsPage.getTotalPages());
+        listProducts.setProductos(productMapper.productListToProductDtoList(productDao.findAllPage(pageable).getContent()));
+        listProducts.setTotal(productDao.findAllPage(pageable).getTotalPages());
         return listProducts;
     }
     @Override

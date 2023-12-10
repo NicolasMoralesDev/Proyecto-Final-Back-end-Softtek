@@ -20,4 +20,5 @@ public class ProductDTO {
     private String imageUrl;
 
     private int stock;
+
 }
