@@ -43,8 +43,7 @@ public class AuthController {
     public ResponseEntity<AuthenticationResponseDTO> login(
             @RequestBody LoginRequestDTO request
     ){
-        AuthenticationResponseDTO loginResponse = authService.login(request);
-        return ResponseEntity.ok(loginResponse);
+        return ResponseEntity.ok(authService.login(request));
     }
     
      @Operation(summary = "Endpoint de acceso Publico, para recuperar password")
@@ -52,6 +51,6 @@ public class AuthController {
     public ResponseEntity<String> recoverPassword(
             @RequestBody RecoverDTO request
     ){
-        return ResponseEntity.ok(        authService.recover(request));
+        return ResponseEntity.ok(authService.recover(request));
     }
 }

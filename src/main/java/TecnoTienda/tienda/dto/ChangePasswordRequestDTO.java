@@ -4,6 +4,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * DTO for the request of the change password.
+ */
 @Getter
 @Setter
 @Builder

@@ -45,7 +45,7 @@ public class AuthServiceImpl implements AuthService {
 
         // Once the user is authenticated, the token is generated. Here we save the user in a variable to use it later.
         var user = userDao.findByEmail(request.getEmail()).orElseThrow(
-                () -> new RuntimeException("User not found")
+                () -> new UserValidationException("Wrong email.")
         );
 
         // Generate token with extra claims
