@@ -43,7 +43,6 @@ public class SaleMapper {
             // Create a new list of items in the SaleDTO
             for (Item item : sale.getItemList()) {
                 Item i = new Item();
-                i.setId(item.getId());
                 i.setProduct(item.getProduct());
                 i.setAmount(item.getAmount());
 
@@ -64,10 +63,8 @@ public class SaleMapper {
         sale.setDate(LocalDate.now());
         for (Item item : saleDto.getItemList()) {
                 Item i = new Item();
-                // TODO: Product mapper?
                 i.setProduct(productDao.findById(item.getProduct().getId()).get());
                 i.setAmount(item.getAmount());
-                i.setSale(sale);
                 sale.getItemList().add(i);
         }
         return sale;
