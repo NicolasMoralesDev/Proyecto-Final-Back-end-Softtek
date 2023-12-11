@@ -8,4 +8,6 @@ public interface SaleService {
     SaleDTO saveSale(CreateSaleRequestDTO requestDTO);
 
     UserSalesResponseDTO saleByUserId(UserSalesRequestDTO requestDTO);
+
+    
 }

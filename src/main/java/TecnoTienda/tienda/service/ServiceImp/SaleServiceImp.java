@@ -58,4 +58,5 @@ public class SaleServiceImp implements SaleService {
         response.setSaleList(saleDTOS);
         return response;
     }
+
 }
