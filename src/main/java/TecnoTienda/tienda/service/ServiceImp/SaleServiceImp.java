@@ -112,4 +112,5 @@ public class SaleServiceImp implements SaleService {
         // Returning the response.
         return salePaginationDTO;
     }
+
 }
