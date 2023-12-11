@@ -12,7 +12,6 @@ public interface SaleService {
      * @return SaleDTO, the sale saved.
      */
     SaleDTO saveSale(CreateSaleRequestDTO requestDTO);
-    SalePaginationDTO saleByUserId(UserSalesRequestDTO requestDTO, int page);
 
     /**
      * Method for get all the sales of a user. The request must contain the userId.

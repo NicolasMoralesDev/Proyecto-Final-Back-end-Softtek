@@ -53,6 +53,7 @@ public class SaleController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
     }
 
+
     /**
      * Endpoint for get all the sales. Admin role required. The endpoint is paginated.
      * @param page int, contains the page number.
