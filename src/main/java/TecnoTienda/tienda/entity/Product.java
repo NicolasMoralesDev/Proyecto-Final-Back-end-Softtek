@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.*;
 
+import java.math.BigDecimal;
+
 
 @Getter
 @Setter
@@ -24,7 +26,7 @@ public class Product {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    private double price;
+    private BigDecimal price;
 
     private String category;
 

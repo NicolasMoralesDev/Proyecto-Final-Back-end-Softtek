@@ -4,6 +4,8 @@ package TecnoTienda.tienda.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author Nico Morales
@@ -13,7 +15,7 @@ import lombok.Setter;
 public class MercadoPagoDTO {
     
     private String id;
-    private double price;
+    private BigDecimal price;
     private int amount;
     
 }

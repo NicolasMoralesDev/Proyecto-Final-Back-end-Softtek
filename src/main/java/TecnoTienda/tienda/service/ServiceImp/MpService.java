@@ -39,7 +39,7 @@ public class MpService implements IMpService {
                         .categoryId("Hardward y Equipos informaticos")
                         .quantity(data.getAmount())
                         .currencyId("ARS")
-                        .unitPrice(new BigDecimal(data.getPrice()))
+                        .unitPrice(data.getPrice())
                         .build();
         List<PreferenceItemRequest> items = new ArrayList<>();
         items.add(itemRequest);
