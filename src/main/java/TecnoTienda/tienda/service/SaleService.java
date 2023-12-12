@@ -14,9 +14,7 @@ public interface SaleService {
     SaleDTO saveSale(CreateSaleRequestDTO requestDTO);
 
 
-    UserSalesResponseDTO saleByUserId(UserSalesRequestDTO requestDTO);
 
-    
 
     /**
      * Method for get all the sales of a user. The request must contain the userId.

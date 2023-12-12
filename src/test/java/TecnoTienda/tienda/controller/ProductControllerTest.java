@@ -71,7 +71,8 @@ public class ProductControllerTest {
     @Test
     public void testGetProductByCategory() {
         // Configuración del servicio simulado
-        String category = "Electronics";
+
+        String category = "gpu";
         int page = 1;
         //ProductPaginationDTO products = new PageImpl<>(Collections.singletonList(new ProductPaginationDTO()));
         //.when(productService.findByCategory(category,page)).thenReturn(products);

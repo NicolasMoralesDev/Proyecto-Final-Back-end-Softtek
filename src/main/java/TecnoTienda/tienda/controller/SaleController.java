@@ -37,6 +37,8 @@ public class SaleController {
         return ResponseEntity.status(HttpStatus.CREATED).body(saleDTO);
     }
 
+
+
     /**
      * Endpoint for get all the sales of a user. Authentication required. The endpoint is paginated.
      * The admin also can use this endpoint.
@@ -50,6 +52,7 @@ public class SaleController {
         SalePaginationDTO response = saleService.saleByUserId(requestDTO, page);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
     }
+
 
     /**
      * Endpoint for get all the sales. Admin role required. The endpoint is paginated.

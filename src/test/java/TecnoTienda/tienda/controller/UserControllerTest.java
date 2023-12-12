@@ -55,4 +55,5 @@ public class UserControllerTest {
         // Verifica que el método del servicio se haya llamado según lo esperado
         verify(userService, times(1)).findById(userId);
     }
+
 }
