@@ -1,4 +1,4 @@
-1. Agregué al POM la dependencia de Spring Security:
+. Agregué al POM la dependencia de Spring Security:
 ```xml
 <dependency>
     <groupId>org.springframework.boot</groupId>

@@ -1,0 +1,43 @@
+https://dbdiagram.io/d/6560e2503be1495787af2b65
+
+Table product {
+  id integer [primary key]
+  name string
+  description string
+  price integer
+  category string
+  brand string
+  img_url string
+  enabled boolean
+  stock integer
+}
+
+Table sale {
+  id integer [primary key]
+  date timestamp
+  user_id integer
+  address string
+  phone string
+  status enum
+}
+
+Table item {
+  id integer [primary key]
+  sale_id integer
+  product_id integer
+  amount integer
+}
+
+
+Table user {
+  id integer [primary key]
+  first_name string
+  last_name string
+  password string
+  enabled boolean
+  role enum
+}
+
+Ref: item.sale_id > sale.id // many-to-one
+Ref: item.product_id > product.id
+Ref: sale.user_id > user.id
