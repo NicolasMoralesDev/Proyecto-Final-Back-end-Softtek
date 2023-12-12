@@ -17,14 +17,11 @@ spec:
     spec:
       containers:
         - name: backend
-          image: nicomuros/final-acsofttek-backend:0.0.3
+          image: nicomuros/final-acsofttek-backend:0.1.1
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:
-#            - name: KEY DE LA VARIABLE DE ENTORNO DEL PUERTO DONDE CORRE EL BACKEND SPRING BOOT
-            - name: PORT
-              value: "8080"
             - name: DB_HOST
               valueFrom:
                 secretKeyRef:

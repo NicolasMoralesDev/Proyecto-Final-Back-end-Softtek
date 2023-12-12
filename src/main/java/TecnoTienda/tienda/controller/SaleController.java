@@ -69,5 +69,4 @@ public class SaleController {
             return ResponseEntity.badRequest().build();
         }
     }
-
 }

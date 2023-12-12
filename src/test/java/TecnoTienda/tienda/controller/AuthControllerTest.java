@@ -1,5 +1,6 @@
 package TecnoTienda.tienda.controller;
 
+import TecnoTienda.tienda.controller.AuthController;
 import TecnoTienda.tienda.dto.AuthenticationResponseDTO;
 import TecnoTienda.tienda.dto.LoginRequestDTO;
 import TecnoTienda.tienda.dto.RegisterRequestDTO;

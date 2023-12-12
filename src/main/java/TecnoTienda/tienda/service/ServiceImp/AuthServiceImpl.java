@@ -144,7 +144,7 @@ public class AuthServiceImpl implements AuthService {
             var user = userDao.findByEmail(request.getEmail()).orElseThrow();
             var idUser = user.getId();
             var jwtToken = generateTokenWithExtraClaims(user);
-            String html = "<a"+ " style= " +"text-decoration: none; "+ " href="+"http://localhost:5173/recoverPasword?q="+jwtToken+ "&id="+idUser + ">cambiar contraseña</a>";
+            String html = "<a"+ " style= " +"text-decoration: none; "+ " href="+"http://34.118.226.11:80/recoverPasword?q="+jwtToken+ "&id="+idUser + ">cambiar contraseña</a>";
             SendEmailRequest sendEmailRequest = SendEmailRequest.builder()
                     .from("onboarding@resend.dev")
                     .to(request.getEmail())
