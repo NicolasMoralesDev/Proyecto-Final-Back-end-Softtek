@@ -25,15 +25,17 @@ public class ProductMapper {
     }
 
     public ProductDTO productToProductDto(Product product) {
+        System.out.println("productStock from DB = " + product.getStock());
         ProductDTO productDto = new ProductDTO();
         productDto.setId(product.getId());
         productDto.setName(product.getName());
-        productDto.setStock(productDto.getStock());
+        productDto.setStock(product.getStock());
         productDto.setDescription(product.getDescription());
         productDto.setPrice(product.getPrice());
         productDto.setCategory(product.getCategory());
         productDto.setBrand(product.getBrand());
         productDto.setImageUrl(product.getImageUrl());
+        System.out.println("productDto = " + productDto.getStock());
         return productDto;
     }
     public List<ProductDTO> productListToProductDtoList(List<Product> listProduct){

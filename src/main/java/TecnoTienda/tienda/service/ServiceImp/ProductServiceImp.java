@@ -12,11 +12,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-
-import javax.swing.text.html.Option;
 
 @Service
 public class ProductServiceImp implements ProductService {
@@ -69,8 +68,10 @@ public class ProductServiceImp implements ProductService {
 
         // se setean los datos en el ProductPaginationDTO
         listProducts.setPage(page);
-        listProducts.setProductos(productDTOs);
-        listProducts.setTotal(productsPage.getTotalPages());
+        Page<Product> productList = productDao.findAllPage(pageable);
+        List<ProductDTO> productDtoList = productMapper.productListToProductDtoList(productList.getContent());
+        listProducts.setProductos(productDtoList);
+        listProducts.setTotal(productList.getTotalPages());
         return listProducts;
     }
     @Override

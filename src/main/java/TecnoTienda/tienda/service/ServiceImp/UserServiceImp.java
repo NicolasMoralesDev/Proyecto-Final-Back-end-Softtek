@@ -49,14 +49,25 @@ public class UserServiceImp  implements UserService{
      */
     @Override
     public void changePassword(ChangePasswordRequestDTO request){
-        User user = userDao.findById(request.getUserId()).orElseThrow(() -> new UsernameNotFoundException("User not found in database"));
+
+        // Find the user in the database. If the user does not exist, throw an exception.
+        User user = userDao.findById(request.getUserId())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found in database"));
+
+        // Check if the current password is correct. If not, throw an exception.
         if(!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())){
             throw new IllegalStateException("Wrong password");
         }
+
+        // Check if the new password and the confirmation password are the same. If not, throw an exception.
         if(!request.getNewPassword().equals(request.getConfirmationPassword())){
             throw new IllegalStateException("Password are not the same");
         }
+
+        // Set the new password
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+
+        // Save the user in the database
         userDao.save(user);
     }
 

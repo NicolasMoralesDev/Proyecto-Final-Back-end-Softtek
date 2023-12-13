@@ -24,6 +24,7 @@ public class UserController {
     UserService userService;
     @Autowired
     UserMapper userMapper;
+
     @Operation(summary = "Endpoint privado, trae todos los usuarios existentes")    
     @GetMapping("/admin/users")
     public ResponseEntity<List<UserDTO>> getUsers(){
@@ -48,6 +49,12 @@ public class UserController {
         }
     }
 
+    /**
+     * This endpoint is used to change the password of a user. Its neccesary to send the old password and the new password.
+     * @param request ChangePasswordRequest, contains the userId, the old password and the new password with the
+     *                confirmation password.
+     * @return ResponseEntity, contains the status of the request.
+     */
     @Operation (summary = "Endpoint privado, cambia la contraseña de un usuario")
     @PutMapping("/user/password")
     public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequestDTO request){

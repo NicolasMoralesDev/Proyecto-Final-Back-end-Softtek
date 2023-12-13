@@ -3,6 +3,8 @@ package TecnoTienda.tienda.dto;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+
 @Data
 public class ProductDTO {
     private int id;
@@ -11,7 +13,7 @@ public class ProductDTO {
 
     private String description;
 
-    private double price;
+    private BigDecimal price;
 
     private String category;
 
@@ -20,4 +22,5 @@ public class ProductDTO {
     private String imageUrl;
 
     private int stock;
+
 }

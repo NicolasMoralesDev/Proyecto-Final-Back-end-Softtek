@@ -4,11 +4,16 @@ import TecnoTienda.tienda.config.JwtService;
 import TecnoTienda.tienda.dao.IUserDao;
 import TecnoTienda.tienda.dto.AuthenticationResponseDTO;
 import TecnoTienda.tienda.dto.LoginRequestDTO;
+import TecnoTienda.tienda.dto.RecoverDTO;
 import TecnoTienda.tienda.dto.RegisterRequestDTO;
 import TecnoTienda.tienda.entity.*;
 import TecnoTienda.tienda.exceptions.UserValidationException;
 import TecnoTienda.tienda.role.Role;
 import TecnoTienda.tienda.service.AuthService;
+import com.resend.Resend;
+import com.resend.core.exception.ResendException;
+import com.resend.services.emails.model.SendEmailRequest;
+import com.resend.services.emails.model.SendEmailResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,7 +33,7 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public AuthenticationResponseDTO login(LoginRequestDTO request){
+    public AuthenticationResponseDTO login(LoginRequestDTO request) {
 
         // User authentication. If the user is not found or the password is incorrect, an exception is thrown.
         authenticationManager.authenticate(
@@ -40,7 +45,7 @@ public class AuthServiceImpl implements AuthService {
 
         // Once the user is authenticated, the token is generated. Here we save the user in a variable to use it later.
         var user = userDao.findByEmail(request.getEmail()).orElseThrow(
-                () -> new RuntimeException("User not found")
+                () -> new UserValidationException("Wrong email.")
         );
 
         // Generate token with extra claims
@@ -81,7 +86,9 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /**
-     * This method validate the user data. If the data is not valid, an exception is thrown.
+     * This method validate the user data. If the data is not valid, an
+     * exception is thrown.
+     *
      * @param request RegisterRequest, contains the user data.
      */
     private void validateUser(RegisterRequestDTO request) {
@@ -107,7 +114,9 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /**
-     * This method generate a token with extra claims. The extra claims are the user data.
+     * This method generate a token with extra claims. The extra claims are the
+     * user data.
+     *
      * @param user User, contains the user data.
      * @return String, the token.
      */
@@ -123,5 +132,35 @@ public class AuthServiceImpl implements AuthService {
 
         // Generate token with extra claims
         return jwtService.generateToken(extraClaims, user);
+    }
+
+    @Override
+    public String recover(RecoverDTO request) {
+
+        Resend resend = new Resend("re_Lbz1n7Zw_9ZSSALTnBq75kUTifLyKjjTH");
+
+        if (userDao.existsByEmail(request.getEmail())) {
+            
+            var user = userDao.findByEmail(request.getEmail()).orElseThrow();
+            var idUser = user.getId();
+            var jwtToken = generateTokenWithExtraClaims(user);
+            String html = "<a"+ " style= " +"text-decoration: none; "+ " href="+"http://34.118.226.11:80/recoverPasword?q="+jwtToken+ "&id="+idUser + ">cambiar contraseña</a>";
+            SendEmailRequest sendEmailRequest = SendEmailRequest.builder()
+                    .from("onboarding@resend.dev")
+                    .to(request.getEmail())
+                    .subject("Restablecer Contraseña!")
+                    .html(html)
+                    .build();
+
+            try {
+                SendEmailResponse data = resend.emails().send(sendEmailRequest);
+                System.out.println(data.getId());
+                return data.getId();
+            } catch (ResendException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return " ";
     }
 }
