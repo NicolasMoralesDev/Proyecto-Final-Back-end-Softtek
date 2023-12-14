@@ -1,6 +1,7 @@
 package TecnoTienda.tienda.service;
 
 import TecnoTienda.tienda.dto.AuthenticationResponseDTO;
+import TecnoTienda.tienda.dto.ChangePasswordRequestMailDTO;
 import TecnoTienda.tienda.dto.LoginRequestDTO;
 import TecnoTienda.tienda.dto.RecoverDTO;
 import TecnoTienda.tienda.dto.RegisterRequestDTO;
@@ -24,4 +25,6 @@ public interface AuthService {
     AuthenticationResponseDTO register(RegisterRequestDTO request);
     
     String recover(RecoverDTO request);
+    
+    String recoverPasswordEmail(ChangePasswordRequestMailDTO request);
 }

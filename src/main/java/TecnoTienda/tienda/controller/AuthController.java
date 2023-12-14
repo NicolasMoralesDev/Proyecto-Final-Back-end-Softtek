@@ -1,6 +1,7 @@
 package TecnoTienda.tienda.controller;
 
 import TecnoTienda.tienda.dto.AuthenticationResponseDTO;
+import TecnoTienda.tienda.dto.ChangePasswordRequestMailDTO;
 import TecnoTienda.tienda.dto.LoginRequestDTO;
 import TecnoTienda.tienda.dto.RecoverDTO;
 import TecnoTienda.tienda.dto.RegisterRequestDTO;
@@ -52,5 +53,14 @@ public class AuthController {
             @RequestBody RecoverDTO request
     ){
         return ResponseEntity.ok(authService.recover(request));
+    }
+    
+    
+      @Operation(summary = "Endpoint de acceso Publico, para restablecer password con correo")
+     @PostMapping("/recover/password")
+    public ResponseEntity<String> recoverPasswordEmail(
+            @RequestBody ChangePasswordRequestMailDTO request
+    ){
+        return ResponseEntity.ok(authService.recoverPasswordEmail(request));
     }
 }
