@@ -3,6 +3,7 @@ package TecnoTienda.tienda.service.ServiceImp;
 import TecnoTienda.tienda.config.JwtService;
 import TecnoTienda.tienda.dao.IUserDao;
 import TecnoTienda.tienda.dto.AuthenticationResponseDTO;
+import TecnoTienda.tienda.dto.ChangePasswordRequestMailDTO;
 import TecnoTienda.tienda.dto.LoginRequestDTO;
 import TecnoTienda.tienda.dto.RecoverDTO;
 import TecnoTienda.tienda.dto.RegisterRequestDTO;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -162,5 +164,32 @@ public class AuthServiceImpl implements AuthService {
         }
 
         return " ";
+    }
+
+    @Override
+    public String recoverPasswordEmail(ChangePasswordRequestMailDTO request) {
+
+          // Find the user in the database. If the user does not exist, throw an exception.
+        User user = userDao.findById(request.getUserId())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found in database"));
+
+
+
+        // Check if the new password and the confirmation password are the same. If not, throw an exception.
+        if(!request.getNewPassword().equals(request.getConfirmationPassword())){
+            throw new IllegalStateException("Password are not the same");
+        }
+
+        // Set the new password
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+
+        try {
+//           / Save the user in the database
+        userDao.save(user); 
+        return "Contraseña restablecida!!";
+        } catch (Exception e) {
+            return e.getMessage().toString();
+        }
+    
     }
 }
